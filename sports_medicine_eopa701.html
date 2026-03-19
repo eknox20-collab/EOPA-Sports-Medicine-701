@@ -1,0 +1,1769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="theme-color" content="#0f172a">
+<meta name="description" content="Sports Medicine EOPA 701 exam preparation tool featuring a diagnostic assessment, 60-question practice test spanning DOK Levels 1-3, vocabulary flashcards, and kinetic chain activity. Built by a teacher with alignment to HOSA Sports Medicine Career and Technical Student Organizations content material.">
+<title>Sports Medicine EOPA 701 — Exam Prep</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════
+   SPORTS MEDICINE EOPA 701
+   Color Theory: Deep teal base + warm amber accent
+   Triadic palette: teal (#0d9488) · amber (#f59e0b) · rose (#f43f5e)
+   Neutral: slate 900/800/700 for dark, slate 50/100 for light
+   Font: Plus Jakarta Sans (body) · Syne (display)
+═══════════════════════════════════════════════════════ */
+:root{
+  /* Core palette */
+  --teal:    #0d9488;
+  --teal2:   #0f766e;
+  --teal3:   #134e4a;
+  --amber:   #f59e0b;
+  --amber2:  #d97706;
+  --rose:    #f43f5e;
+  --rose2:   #e11d48;
+
+  /* Neutrals */
+  --ink:     #0f172a;
+  --ink2:    #1e293b;
+  --ink3:    #334155;
+  --mid:     #64748b;
+  --light:   #cbd5e1;
+  --pale:    #f1f5f9;
+  --white:   #ffffff;
+
+  /* Semantic */
+  --bg:      #0f172a;
+  --surface: #1e293b;
+  --surface2:#253347;
+  --border:  rgba(255,255,255,.08);
+  --border2: rgba(255,255,255,.14);
+  --text:    #e2e8f0;
+  --text2:   #94a3b8;
+  --correct: #10b981;
+  --wrong:   #f43f5e;
+
+  --r: 10px;
+  --sat: env(safe-area-inset-top,0px);
+  --sab: env(safe-area-inset-bottom,0px);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  font-family:'Plus Jakarta Sans',sans-serif;
+  color:var(--text);
+  font-size:15px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+
+/* Subtle mesh background */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(13,148,136,.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(245,158,11,.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 60% 10%, rgba(244,63,94,.05) 0%, transparent 40%);
+}
+
+.page{position:relative;z-index:1;min-height:100vh}
+.hidden{display:none!important}
+
+/* ════ TOPBAR ════ */
+.topbar{
+  background:rgba(15,23,42,.92);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  padding:0 clamp(16px,4vw,40px);
+  height:60px;display:flex;align-items:center;gap:12px;
+  position:sticky;top:0;z-index:200;
+}
+.tb-logo{
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:1rem;color:var(--white);letter-spacing:-.01em;
+  display:flex;align-items:center;gap:8px;
+}
+.tb-logo-dot{
+  width:28px;height:28px;border-radius:7px;
+  background:linear-gradient(135deg,var(--teal),var(--teal2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;flex-shrink:0;
+}
+.tb-logo-text em{font-style:normal;color:var(--teal)}
+.tb-spacer{flex:1}
+.tb-nav{display:flex;gap:3px}
+.tb-btn{
+  font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  padding:7px 13px;border-radius:6px;border:none;
+  background:transparent;color:var(--text2);cursor:pointer;transition:all .15s;
+  white-space:nowrap;
+}
+.tb-btn:hover{background:rgba(255,255,255,.07);color:var(--white)}
+.tb-btn.active{background:rgba(13,148,136,.2);color:var(--teal)}
+
+/* ════ HERO ════ */
+.hero{
+  padding:clamp(60px,9vw,100px) clamp(20px,5vw,60px) clamp(48px,7vw,80px);
+  text-align:center;position:relative;overflow:hidden;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(13,148,136,.12);border:1px solid rgba(13,148,136,.3);
+  border-radius:50px;padding:5px 16px;
+  font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--teal);margin-bottom:22px;
+}
+.hero-badge::before{content:'◆';font-size:8px}
+.hero-h1{
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:clamp(2.4rem,7vw,4.6rem);
+  color:var(--white);line-height:1;letter-spacing:-.03em;
+  margin-bottom:12px;
+}
+.hero-h1 em{
+  font-style:normal;
+  background:linear-gradient(135deg,var(--teal) 0%,#06d6a0 50%,var(--amber) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-sub{
+  font-size:clamp(14px,2.2vw,17px);color:var(--text2);
+  max-width:560px;margin:0 auto 16px;line-height:1.75;
+}
+.hero-credit{
+  font-size:12px;color:var(--mid);
+  max-width:520px;margin:0 auto 36px;line-height:1.65;
+  font-style:italic;
+}
+.hero-credit strong{color:var(--teal);font-style:normal}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:52px}
+.h-btn{
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;
+  letter-spacing:.03em;padding:14px 28px;border-radius:50px;
+  cursor:pointer;border:none;display:flex;align-items:center;gap:8px;
+  transition:all .18s;text-decoration:none;
+}
+.h-btn.primary{
+  background:linear-gradient(135deg,var(--teal),var(--teal2));
+  color:var(--white);
+  box-shadow:0 4px 20px rgba(13,148,136,.4);
+}
+.h-btn.primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(13,148,136,.5)}
+.h-btn.primary:active{transform:translateY(1px)}
+.h-btn.secondary{
+  background:rgba(255,255,255,.07);color:var(--white);
+  border:1px solid var(--border2);
+}
+.h-btn.secondary:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.25)}
+.h-btn.amber{
+  background:linear-gradient(135deg,var(--amber),var(--amber2));
+  color:var(--ink);box-shadow:0 4px 20px rgba(245,158,11,.35);
+}
+.h-btn.amber:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(245,158,11,.45)}
+
+/* Hero stats */
+.hero-stats{
+  display:inline-flex;gap:0;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:14px;overflow:hidden;
+}
+.hs{padding:14px 24px;text-align:center;border-right:1px solid var(--border)}
+.hs:last-child{border:none}
+.hs-num{
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:1.7rem;color:var(--white);line-height:1;
+}
+.hs-num span{color:var(--teal)}
+.hs-lbl{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text2);margin-top:3px}
+
+/* ════ LOGIN MODAL ════ */
+.modal-overlay{
+  position:fixed;inset:0;z-index:500;
+  background:rgba(0,0,0,.7);backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;
+}
+.modal-overlay.hidden{display:none!important}
+.modal-box{
+  background:var(--surface);border:1px solid var(--border2);
+  border-radius:16px;padding:32px 28px;width:100%;max-width:400px;
+  box-shadow:0 24px 60px rgba(0,0,0,.5);
+  animation:modalIn .3s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes modalIn{from{opacity:0;transform:scale(.9) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-icon{font-size:2.2rem;text-align:center;margin-bottom:12px}
+.modal-title{
+  font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;
+  color:var(--white);text-align:center;margin-bottom:5px;
+}
+.modal-sub{font-size:12.5px;color:var(--text2);text-align:center;margin-bottom:22px;line-height:1.6}
+.modal-field{margin-bottom:14px}
+.modal-label{
+  font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--text2);display:block;margin-bottom:6px;
+}
+.modal-input{
+  width:100%;background:var(--bg);border:1.5px solid var(--border2);
+  border-radius:8px;padding:12px 14px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:500;
+  color:var(--white);outline:none;transition:border-color .15s;
+  -webkit-appearance:none;
+}
+.modal-input:focus{border-color:var(--teal)}
+.modal-input::placeholder{color:var(--mid)}
+.modal-btn{
+  width:100%;padding:13px;border:none;border-radius:8px;
+  background:linear-gradient(135deg,var(--teal),var(--teal2));
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;
+  color:var(--white);cursor:pointer;transition:all .15s;
+  box-shadow:0 4px 14px rgba(13,148,136,.35);
+}
+.modal-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(13,148,136,.45)}
+.modal-btn:active{transform:translateY(1px)}
+.modal-note{font-size:11px;color:var(--mid);text-align:center;margin-top:12px;line-height:1.5}
+.modal-error{
+  font-size:12px;font-weight:600;color:var(--rose);
+  text-align:center;margin-top:8px;display:none;
+}
+
+/* ════ SECTION ════ */
+.section{padding:clamp(52px,7vw,80px) clamp(20px,5vw,60px);max-width:1000px;margin:0 auto}
+.section-eyebrow{
+  font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--teal);display:flex;align-items:center;gap:8px;margin-bottom:8px;
+}
+.section-eyebrow::before{content:'';width:20px;height:2px;background:var(--teal);border-radius:2px}
+.section-title{
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:clamp(1.7rem,4vw,2.6rem);color:var(--white);
+  line-height:1.1;letter-spacing:-.02em;margin-bottom:10px;
+}
+.section-sub{font-size:14px;color:var(--text2);max-width:520px;line-height:1.75;margin-bottom:32px}
+
+/* ════ TOOL CARDS ════ */
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+.tool-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:14px;padding:22px 20px;
+  display:flex;flex-direction:column;gap:10px;
+  transition:all .2s;cursor:pointer;
+  position:relative;overflow:hidden;
+}
+.tool-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--tc1,var(--teal)),var(--tc2,var(--teal2)));
+}
+.tool-card:hover{
+  border-color:var(--border2);transform:translateY(-3px);
+  box-shadow:0 12px 32px rgba(0,0,0,.3);
+}
+.tc-icon{font-size:1.8rem}
+.tc-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1.05rem;color:var(--white)}
+.tc-sub{font-size:12.5px;color:var(--text2);line-height:1.55;flex:1}
+.tc-features{display:flex;flex-direction:column;gap:5px}
+.tc-feat{display:flex;align-items:flex-start;gap:7px;font-size:12px;color:var(--text2)}
+.tc-feat::before{content:'✓';color:var(--correct);font-weight:800;flex-shrink:0;margin-top:1px}
+.tc-btn{
+  width:100%;padding:10px;border:none;border-radius:7px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:700;
+  letter-spacing:.05em;text-transform:uppercase;cursor:pointer;
+  transition:all .14s;margin-top:4px;
+}
+.tc-btn.teal{background:rgba(13,148,136,.15);color:var(--teal);border:1.5px solid rgba(13,148,136,.3)}
+.tc-btn.teal:hover{background:rgba(13,148,136,.25)}
+.tc-btn.amber{background:rgba(245,158,11,.12);color:var(--amber);border:1.5px solid rgba(245,158,11,.25)}
+.tc-btn.amber:hover{background:rgba(245,158,11,.22)}
+.tc-btn.rose{background:rgba(244,63,94,.1);color:var(--rose);border:1.5px solid rgba(244,63,94,.2)}
+.tc-btn.rose:hover{background:rgba(244,63,94,.18)}
+
+/* ════ FLASHCARDS ════ */
+.flash-section{padding:clamp(48px,7vw,72px) clamp(20px,5vw,60px);max-width:1100px;margin:0 auto}
+.flash-filter-row{
+  display:flex;gap:7px;flex-wrap:wrap;margin-bottom:20px;align-items:center;
+}
+.ff-btn{
+  font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  padding:6px 14px;border-radius:50px;
+  border:1.5px solid var(--border);background:transparent;
+  color:var(--text2);cursor:pointer;transition:all .14s;
+  -webkit-tap-highlight-color:transparent;
+}
+.ff-btn:hover{border-color:var(--teal);color:var(--teal)}
+.ff-btn.active{background:var(--teal);border-color:var(--teal);color:var(--white)}
+.ff-count{font-size:12px;color:var(--mid);font-weight:600;margin-left:auto}
+.flash-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;
+}
+.flash-card{
+  background:var(--surface);border:1.5px solid var(--border);
+  border-radius:12px;padding:0;cursor:pointer;
+  transition:all .2s;position:relative;min-height:130px;
+  perspective:600px;transform-style:preserve-3d;
+}
+.flash-card:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.flash-inner{
+  position:relative;width:100%;height:100%;min-height:130px;
+  transform-style:preserve-3d;transition:transform .45s cubic-bezier(.34,1.56,.64,1);
+}
+.flash-card.flipped .flash-inner{transform:rotateY(180deg)}
+.flash-front,.flash-back{
+  position:absolute;inset:0;padding:14px 13px;
+  backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  border-radius:12px;display:flex;flex-direction:column;
+}
+.flash-back{transform:rotateY(180deg);background:var(--surface2)}
+.flash-std-tag{
+  font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  margin-bottom:8px;
+}
+.flash-term{
+  font-family:'Syne',sans-serif;font-weight:700;
+  font-size:1rem;color:var(--white);line-height:1.25;flex:1;
+  display:flex;align-items:center;
+}
+.flash-tap{font-size:10px;color:var(--mid);font-weight:600;margin-top:8px}
+.flash-def{font-size:12px;color:var(--text);line-height:1.55;flex:1}
+.flash-back-label{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:6px}
+
+/* ════ DOK SECTION ════ */
+.dok-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:28px}
+.dok-card{
+  background:var(--surface);border:1.5px solid var(--border);
+  border-radius:12px;padding:20px 18px;position:relative;overflow:hidden;
+  transition:all .2s;
+}
+.dok-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.dok-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.dok-d1::before{background:var(--correct)}
+.dok-d2::before{background:var(--amber)}
+.dok-d3::before{background:var(--rose)}
+.dok-bg-num{
+  font-family:'Syne',sans-serif;font-weight:800;font-size:5rem;
+  color:rgba(255,255,255,.04);position:absolute;top:10px;right:12px;line-height:1;
+}
+.dok-tag{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:7px}
+.dok-d1 .dok-tag{color:var(--correct)}
+.dok-d2 .dok-tag{color:var(--amber)}
+.dok-d3 .dok-tag{color:var(--rose)}
+.dok-name{font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;color:var(--white);margin-bottom:7px}
+.dok-desc{font-size:12.5px;color:var(--text2);line-height:1.6;margin-bottom:12px}
+.dok-ex{
+  font-size:11.5px;color:var(--text2);line-height:1.5;font-style:italic;
+  padding:9px 11px;border-radius:6px;background:rgba(255,255,255,.04);
+  border-left:2.5px solid rgba(255,255,255,.1);
+}
+.dok-d1 .dok-ex{border-left-color:var(--correct)}
+.dok-d2 .dok-ex{border-left-color:var(--amber)}
+.dok-d3 .dok-ex{border-left-color:var(--rose)}
+
+/* ════ DOMAIN GRID ════ */
+.domain-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:9px}
+.domain-pill{
+  background:var(--surface);border:1.5px solid var(--border);
+  border-top:3px solid var(--dc,var(--teal));
+  border-radius:10px;padding:12px 10px;text-align:center;
+  transition:all .18s;
+}
+.domain-pill:hover{border-color:var(--dc,var(--teal));transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.2)}
+.dp-pct{font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;color:var(--dc,var(--teal));line-height:1}
+.dp-code{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dc,var(--teal));margin:2px 0}
+.dp-name{font-size:10.5px;font-weight:600;color:var(--text2);line-height:1.3}
+
+/* ════ DRAG-DROP ════ */
+.dd-wrap{
+  background:var(--surface);border:1.5px solid var(--border);
+  border-radius:14px;overflow:hidden;
+}
+.dd-header-bar{
+  background:linear-gradient(135deg,var(--teal3),var(--ink2));
+  padding:16px 20px;display:flex;align-items:center;gap:10px;
+  border-bottom:1px solid var(--border);
+}
+.ddh-icon{font-size:1.4rem}
+.ddh-title{font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;color:var(--white)}
+.ddh-sub{font-size:11px;color:rgba(255,255,255,.5);font-weight:600}
+.dd-instruct{
+  padding:11px 18px;font-size:12.5px;color:var(--text2);
+  background:rgba(255,255,255,.02);border-bottom:1px solid var(--border);
+}
+.dd-body{padding:16px 18px 14px}
+.dd-bank-lbl{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);margin-bottom:9px}
+.dd-bank{
+  display:flex;flex-wrap:wrap;gap:9px;min-height:96px;
+  padding:11px;border-radius:10px;border:2px dashed var(--border2);
+  background:rgba(255,255,255,.02);margin-bottom:18px;transition:all .2s;
+}
+.dd-bank.drag-over{border-color:var(--teal);background:rgba(13,148,136,.05)}
+.ex-card{
+  display:flex;flex-direction:column;align-items:center;gap:5px;
+  padding:9px 11px;width:100px;
+  background:var(--ink2);border:1.5px solid var(--border2);
+  border-radius:10px;cursor:grab;transition:all .16s;user-select:none;
+  -webkit-tap-highlight-color:transparent;
+}
+.ex-card:hover{border-color:var(--teal);transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.3)}
+.ex-card:active{cursor:grabbing;transform:scale(.95)}
+.ex-card.dragging{opacity:.35}
+.ex-card img{width:68px;height:68px;object-fit:contain;border-radius:6px}
+.ex-card-lbl{font-size:10px;font-weight:700;color:var(--text);text-align:center;line-height:1.25}
+.dd-zones-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+@media(max-width:460px){.dd-zones-row{grid-template-columns:1fr}}
+.drop-zone{
+  border:2px dashed var(--border2);border-radius:10px;
+  padding:12px 12px 9px;min-height:120px;
+  background:rgba(255,255,255,.02);transition:all .18s;
+}
+.drop-zone.drag-over{border-color:var(--dz);background:color-mix(in srgb,var(--dz) 6%,transparent);transform:scale(1.01)}
+.drop-zone.dz-ok{border-color:var(--correct);background:rgba(16,185,129,.07)}
+.drop-zone.dz-bad{border-color:var(--rose);background:rgba(244,63,94,.06)}
+.dz-title{font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;color:var(--dz,var(--text));margin-bottom:3px}
+.dz-def{font-size:11px;color:var(--text2);line-height:1.45;margin-bottom:9px;padding-bottom:7px;border-bottom:1px solid var(--border)}
+.dz-items{display:flex;flex-wrap:wrap;gap:7px;min-height:44px}
+.dz-ph{font-size:11px;color:var(--mid);font-weight:600;font-style:italic;padding:5px 0;pointer-events:none}
+.ex-card.in-ok{border-color:var(--correct);background:rgba(16,185,129,.08)}
+.ex-card.in-bad{border-color:var(--rose);background:rgba(244,63,94,.07);animation:exShake .4s ease}
+@keyframes exShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.dd-ctrl-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.dd-btn-check{
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:.07em;text-transform:uppercase;padding:10px 20px;
+  border-radius:50px;border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--teal),var(--teal2));
+  color:var(--white);box-shadow:0 3px 12px rgba(13,148,136,.35);
+  transition:all .15s;-webkit-tap-highlight-color:transparent;
+}
+.dd-btn-check:hover{transform:translateY(-1px);box-shadow:0 5px 18px rgba(13,148,136,.45)}
+.dd-btn-check:active{transform:translateY(1px);box-shadow:none}
+.dd-btn-check:disabled{opacity:.3;cursor:default;transform:none;box-shadow:none}
+.dd-btn-reset{
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:.07em;text-transform:uppercase;padding:10px 16px;
+  border-radius:50px;border:1.5px solid var(--border2);
+  background:transparent;color:var(--text2);cursor:pointer;transition:all .15s;
+}
+.dd-btn-reset:hover{border-color:var(--teal);color:var(--teal)}
+.dd-msg{flex:1;font-size:12.5px;font-weight:700;text-align:right}
+.dd-msg.ok{color:var(--correct)}.dd-msg.bad{color:var(--rose)}
+
+/* ════ TEST ENGINE ════ */
+#test-view{max-width:720px;margin:0 auto;padding:20px 16px calc(var(--sab)+24px)}
+.test-top-bar{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:12px;padding:16px 18px;margin-bottom:16px;
+  display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+}
+.ttb-mode{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:4px}
+.ttb-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;color:var(--white);margin-bottom:5px}
+.ttb-meta{font-size:11.5px;color:var(--text2);display:flex;gap:10px;flex-wrap:wrap}
+.ttb-timer{
+  font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;
+  color:var(--amber);line-height:1;text-align:right;
+}
+.ttb-timer-lbl{font-size:9px;color:var(--text2);font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+.prog-bar-wrap{height:6px;background:var(--surface2);border-radius:50px;overflow:hidden;margin-bottom:14px}
+.prog-bar-fill{height:100%;border-radius:50px;background:linear-gradient(90deg,var(--teal),#06d6a0);transition:width .4s cubic-bezier(.34,1.56,.64,1)}
+.prog-info{display:flex;justify-content:space-between;font-size:11.5px;font-weight:600;color:var(--text2);margin-bottom:8px}
+
+.dok-pill{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-radius:50px;padding:3px 10px;margin-bottom:4px}
+.dp1{background:rgba(16,185,129,.12);color:var(--correct);border:1px solid rgba(16,185,129,.25)}
+.dp2{background:rgba(245,158,11,.1);color:var(--amber);border:1px solid rgba(245,158,11,.25)}
+.dp3{background:rgba(244,63,94,.1);color:var(--rose);border:1px solid rgba(244,63,94,.2)}
+.std-pill{display:inline-flex;font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;border-radius:50px;padding:3px 10px;margin-left:5px;margin-bottom:4px;color:#fff}
+
+.q-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:12px;padding:18px;margin-bottom:12px;
+  position:relative;overflow:hidden;
+}
+.q-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),transparent)}
+.q-num{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text2);margin-bottom:7px}
+.q-text{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(14px,3.5vw,16px);font-weight:600;color:var(--white);line-height:1.55}
+.ans-list{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.ans-btn{
+  display:flex;align-items:center;
+  border:1.5px solid var(--border);border-radius:9px;
+  background:var(--surface);
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:13.5px;font-weight:500;
+  color:var(--text2);cursor:pointer;transition:all .13s;
+  text-align:left;width:100%;overflow:hidden;min-height:50px;
+  -webkit-tap-highlight-color:transparent;
+}
+.ans-btn:hover:not(:disabled):not(.ac):not(.aw){background:rgba(13,148,136,.06);border-color:var(--teal);color:var(--white);transform:translateX(3px)}
+.ans-btn.asel{background:rgba(13,148,136,.1);border-color:var(--teal);color:var(--white)}
+.ans-btn.ac{background:rgba(16,185,129,.1);border-color:var(--correct);color:var(--white);animation:acFlash .5s ease 2}
+.ans-btn.aw{background:rgba(244,63,94,.08);border-color:var(--rose);animation:awShake .4s ease}
+.ans-btn:disabled:not(.ac):not(.aw){cursor:default;opacity:.7}
+@keyframes acFlash{0%,100%{background:rgba(16,185,129,.1)}50%{background:rgba(16,185,129,.22)}}
+@keyframes awShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.ans-key{
+  width:42px;min-height:50px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:12px;color:var(--mid);
+  background:rgba(255,255,255,.03);border-right:1px solid var(--border);
+  transition:all .13s;
+}
+.ans-btn.asel .ans-key{color:var(--teal);background:rgba(13,148,136,.1)}
+.ans-btn.ac .ans-key{background:var(--correct);color:#fff;border-color:var(--correct)}
+.ans-btn.aw .ans-key{background:var(--rose);color:#fff;border-color:var(--rose)}
+.ans-txt{padding:10px 13px;flex:1;line-height:1.4}
+.rat-box{border-radius:8px;padding:11px 13px;margin-bottom:11px;font-size:12.5px;line-height:1.65;display:none}
+.rat-box.show{display:block;animation:fadeUp .3s ease}
+.rat-box.rok{background:rgba(16,185,129,.07);border:1.5px solid rgba(16,185,129,.2);border-left:3px solid var(--correct)}
+.rat-box.rok::before{content:'✓ CORRECT';display:block;font-size:9px;font-weight:700;letter-spacing:.1em;color:var(--correct);margin-bottom:4px}
+.rat-box.rbad{background:rgba(244,63,94,.06);border:1.5px solid rgba(244,63,94,.15);border-left:3px solid var(--rose)}
+.rat-box.rbad::before{content:'✗ INCORRECT — REVIEW';display:block;font-size:9px;font-weight:700;letter-spacing:.1em;color:var(--rose);margin-bottom:4px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.ctrl-row{display:flex;align-items:center;gap:8px}
+.ctrl-fb{flex:1;font-size:12px;font-weight:600;color:var(--text2)}
+.ctrl-fb.cok{color:var(--correct)}.ctrl-fb.cbad{color:var(--rose)}
+.ctrl-btn{
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;padding:10px 18px;
+  border-radius:50px;border:1.5px solid var(--border2);
+  background:transparent;color:var(--text2);cursor:pointer;transition:all .13s;
+  white-space:nowrap;-webkit-tap-highlight-color:transparent;
+}
+.ctrl-btn:hover:not(:disabled){border-color:var(--teal);color:var(--teal)}
+.ctrl-btn:active{transform:scale(.96)}
+.ctrl-btn:disabled{opacity:.3;cursor:default}
+.ctrl-btn.primary{
+  background:linear-gradient(135deg,var(--teal),var(--teal2));
+  border-color:transparent;color:var(--white);
+  box-shadow:0 3px 10px rgba(13,148,136,.3);
+}
+.ctrl-btn.primary:active{transform:translateY(2px);box-shadow:none}
+
+/* ════ RESULTS ════ */
+.results-wrap{max-width:720px;margin:0 auto;padding:20px 16px calc(var(--sab)+40px)}
+.score-card{
+  background:linear-gradient(135deg,var(--teal3) 0%,var(--ink2) 100%);
+  border:1px solid var(--border);border-radius:16px;
+  padding:28px 22px;text-align:center;margin-bottom:18px;
+  position:relative;overflow:hidden;
+}
+.score-card::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 30% 50%,rgba(13,148,136,.15) 0%,transparent 60%);
+  pointer-events:none;
+}
+.sc-mode{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:8px}
+.sc-score{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(3rem,9vw,4.5rem);color:var(--white);line-height:1;position:relative}
+.sc-score span{color:var(--teal)}
+.sc-pct{font-size:1.1rem;font-weight:700;color:rgba(255,255,255,.6);margin-bottom:12px}
+.sc-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:7px 18px;border-radius:50px;
+  font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+  position:relative;
+}
+.sc-badge.spass{background:rgba(16,185,129,.15);color:#6ee7b7;border:1px solid rgba(16,185,129,.3)}
+.sc-badge.swarn{background:rgba(245,158,11,.12);color:#fcd34d;border:1px solid rgba(245,158,11,.25)}
+.sc-badge.sfail{background:rgba(244,63,94,.12);color:#fda4af;border:1px solid rgba(244,63,94,.25)}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+@media(min-width:500px){.stats-row{grid-template-columns:repeat(6,1fr)}}
+.stat-box{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 8px;text-align:center}
+.sb-val{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;color:var(--white);line-height:1;margin-bottom:3px}
+.sb-lbl{font-size:9px;font-weight:700;color:var(--text2);letter-spacing:.08em;text-transform:uppercase}
+.result-section{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:14px}
+.rs-title{font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;color:var(--white);margin-bottom:14px;display:flex;align-items:center;gap:7px}
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.bar-row:last-child{margin-bottom:0}
+.bar-lbl{font-size:11px;font-weight:700;min-width:68px}
+.bar-track{flex:1;height:12px;background:var(--ink3);border-radius:50px;overflow:hidden;border:1px solid var(--border)}
+.bar-fill{height:100%;border-radius:50px;transition:width .8s cubic-bezier(.34,1.56,.64,1)}
+.bar-score{font-size:11.5px;font-weight:700;min-width:50px;text-align:right;font-variant-numeric:tabular-nums}
+.reco-box{
+  background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.2);
+  border-left:3px solid var(--amber);border-radius:12px;
+  padding:16px 18px;margin-bottom:16px;
+}
+.reco-title{font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;color:var(--white);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.reco-item{display:flex;align-items:flex-start;gap:7px;font-size:12.5px;color:var(--text);line-height:1.55;margin-bottom:7px}
+.reco-item::before{content:'→';color:var(--amber);font-weight:700;flex-shrink:0;margin-top:1px}
+
+/* Print report */
+.print-report-btn{
+  width:100%;padding:13px;border:1.5px solid rgba(245,158,11,.3);
+  border-radius:50px;background:rgba(245,158,11,.08);
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;
+  color:var(--amber);cursor:pointer;transition:all .15s;
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  margin-bottom:12px;
+}
+.print-report-btn:hover{background:rgba(245,158,11,.15);border-color:rgba(245,158,11,.5)}
+.result-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.ra-btn{
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;padding:12px 22px;
+  border-radius:50px;cursor:pointer;transition:all .15s;
+  border:1.5px solid var(--border2);background:transparent;color:var(--text2);
+}
+.ra-btn:hover{border-color:var(--teal);color:var(--teal)}
+.ra-btn.primary{background:linear-gradient(135deg,var(--teal),var(--teal2));border-color:transparent;color:var(--white);box-shadow:0 3px 12px rgba(13,148,136,.3)}
+.ra-btn.primary:active{transform:translateY(1px);box-shadow:none}
+
+/* ════ DIVIDER / FOOTER ════ */
+.divider{height:1px;background:var(--border);margin:0}
+.site-footer{
+  background:var(--ink2);border-top:1px solid var(--border);
+  padding:32px 20px calc(32px + env(safe-area-inset-bottom,0px));
+  text-align:center;
+}
+.sf-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;color:var(--white);margin-bottom:5px}
+.sf-logo em{font-style:normal;color:var(--teal)}
+.sf-sub{font-size:11px;color:var(--mid);line-height:1.7;max-width:480px;margin:0 auto}
+
+/* ════ MISC ════ */
+.screen-flash{position:fixed;inset:0;z-index:900;pointer-events:none;opacity:0;transition:opacity .3s}
+.screen-flash.sf-ok{background:rgba(16,185,129,.1)}.screen-flash.sf-bad{background:rgba(244,63,94,.1)}
+.cf{position:fixed;top:-12px;z-index:800;pointer-events:none;animation:cfFall linear forwards}
+@keyframes cfFall{0%{transform:translateY(0)rotate(0);opacity:1}100%{transform:translateY(110dvh)rotate(540deg);opacity:0}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* Print styles */
+@media print{
+  .topbar,.hero,.tools-section,.flash-section,.dok-section-wrap,
+  .domain-section,.dd-section-wrap,.cta-wrap,.site-footer,
+  #page-home,#page-test,.tb-nav,.print-report-btn,.result-actions,
+  .screen-flash{display:none!important}
+  body{background:#fff;color:#000}
+  .results-wrap{padding:0}
+  .score-card{background:#f0fdf4;border:2px solid #16a34a;color:#000}
+  .sc-score,.sc-pct,.sc-mode,.sc-badge,.rs-title,.sb-val,.sb-lbl{color:#000!important}
+  .result-section{border:1.5px solid #ccc;background:#fafafa}
+  .bar-track{background:#e5e7eb}
+  .stat-box{border:1.5px solid #ccc;background:#f9fafb}
+  .reco-box{background:#fffbeb;border:1.5px solid #fcd34d}
+  .reco-item,.reco-title,.sc-badge{color:#000!important}
+  .print-header{display:block!important}
+}
+.print-header{display:none;margin-bottom:20px;border-bottom:2px solid #ccc;padding-bottom:14px}
+.ph-title{font-size:18pt;font-weight:900;color:#0f172a;margin-bottom:4px}
+.ph-sub{font-size:11pt;color:#64748b}
+.ph-student{font-size:12pt;font-weight:700;color:#0f172a;margin-top:8px}
+
+@media(max-width:520px){
+  .hero-stats{display:grid;grid-template-columns:repeat(2,1fr);border-radius:14px}
+  .hs{border-right:none;border-bottom:1px solid var(--border)}
+  .hs:nth-child(odd){border-right:1px solid var(--border)}
+  .hs:last-child,.hs:nth-last-child(2):nth-child(odd){border-bottom:none}
+  .tb-btn:not(:last-child):not(.active){display:none}
+}
+
+/* ═══ ENHANCED DIAGNOSTIC REPORT ═══ */
+.diag-report-header {
+  background:linear-gradient(135deg,#0f766e 0%,#0f172a 100%);
+  border-radius:16px;padding:28px 24px;margin-bottom:16px;
+  position:relative;overflow:hidden;
+}
+.diag-report-header::before {
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse at 80% 20%,rgba(245,158,11,.12) 0%,transparent 55%);
+}
+.drh-top {
+  display:flex;align-items:flex-start;justify-content:space-between;
+  gap:12px;margin-bottom:18px;position:relative;
+}
+.drh-label {
+  font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(255,255,255,.5);margin-bottom:6px;
+}
+.drh-title {
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:clamp(1.4rem,4vw,1.9rem);color:#fff;
+  line-height:1.15;letter-spacing:-.02em;
+}
+.drh-title em {font-style:normal;color:#5eead4}
+.drh-score-block {text-align:right;flex-shrink:0}
+.drh-score-num {
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:clamp(2.4rem,7vw,3.4rem);color:#fff;line-height:1;
+}
+.drh-score-num span {color:#5eead4}
+.drh-score-pct {
+  font-size:1rem;font-weight:700;color:rgba(255,255,255,.6);
+}
+.drh-meta {
+  display:flex;gap:14px;flex-wrap:wrap;
+  font-size:12px;font-weight:600;color:rgba(255,255,255,.55);
+  position:relative;
+}
+.drh-meta-item {display:flex;align-items:center;gap:5px}
+.drh-meta-item::before {content:'◆';font-size:7px;color:var(--teal)}
+.drh-grade {
+  display:inline-flex;align-items:center;gap:6px;
+  padding:7px 16px;border-radius:50px;margin-top:14px;
+  font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+  position:relative;
+}
+
+/* Domain performance map */
+.domain-map-grid {
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(115px,1fr));
+  gap:10px;
+}
+.dmap-card {
+  background:var(--surface2,#253347);
+  border-radius:12px;padding:13px 10px;text-align:center;
+  border:1.5px solid var(--border);position:relative;overflow:hidden;
+  transition:transform .18s;
+}
+.dmap-card:hover {transform:translateY(-2px)}
+.dmap-card::before {
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+}
+.dmap-icon {font-size:1.4rem;margin-bottom:5px}
+.dmap-code {
+  font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  margin-bottom:2px;
+}
+.dmap-name {font-size:10px;font-weight:600;color:var(--text2);margin-bottom:7px;line-height:1.3}
+.dmap-pct {
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:1.5rem;line-height:1;margin-bottom:3px;
+}
+.dmap-bar {height:5px;background:var(--border);border-radius:50px;overflow:hidden;margin-bottom:5px}
+.dmap-bar-fill {height:100%;border-radius:50px;transition:width .8s ease}
+.dmap-status {
+  font-size:9px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  padding:2px 7px;border-radius:50px;display:inline-block;
+}
+.ds-strong {background:rgba(16,185,129,.15);color:#10b981}
+.ds-review {background:rgba(245,158,11,.12);color:#f59e0b}
+.ds-focus  {background:rgba(244,63,94,.12);color:#f43f5e}
+
+/* Exam weight importance callout */
+.weight-callout {
+  display:flex;align-items:flex-start;gap:10px;
+  background:rgba(245,158,11,.07);
+  border:1px solid rgba(245,158,11,.2);border-left:3px solid var(--amber);
+  border-radius:10px;padding:12px 14px;margin-top:10px;
+  font-size:12.5px;color:var(--text);line-height:1.6;
+}
+.weight-callout-icon {font-size:1.2rem;flex-shrink:0;margin-top:1px}
+
+/* Priority study plan table */
+.study-plan-table {width:100%;border-collapse:collapse}
+.study-plan-table th {
+  font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text2);padding:8px 12px;text-align:left;
+  border-bottom:1.5px solid var(--border);
+}
+.study-plan-table td {
+  padding:10px 12px;border-bottom:1px solid var(--border);
+  font-size:12.5px;vertical-align:middle;
+}
+.study-plan-table tr:last-child td {border:none}
+.study-plan-table tr:hover td {background:rgba(255,255,255,.02)}
+.spt-priority {
+  display:inline-flex;align-items:center;justify-content:center;
+  width:22px;height:22px;border-radius:50%;
+  font-size:11px;font-weight:800;color:#000;flex-shrink:0;
+}
+.p1 {background:#f43f5e}
+.p2 {background:#f97316}
+.p3 {background:#f59e0b}
+.p4 {background:#22c55e}
+.spt-domain {font-weight:700;color:var(--white)}
+.spt-score-cell {font-weight:700;font-family:'Syne',sans-serif;font-size:.95rem}
+.spt-weight {font-size:11px;color:var(--text2)}
+.spt-action {font-size:11.5px;color:var(--text2);line-height:1.45}
+
+/* Download button */
+.download-btn {
+  width:100%;padding:14px;border:none;border-radius:10px;
+  background:linear-gradient(135deg,var(--teal),var(--teal2));
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--white);
+  cursor:pointer;transition:all .15s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  margin-bottom:10px;
+  box-shadow:0 4px 16px rgba(13,148,136,.35);
+}
+.download-btn:hover {transform:translateY(-1px);box-shadow:0 6px 22px rgba(13,148,136,.45)}
+.download-btn:active {transform:translateY(1px);box-shadow:none}
+.download-sub {font-size:11px;color:var(--mid);text-align:center;margin-bottom:14px}
+
+/* Print-only diagnostic report */
+@media print {
+  .no-print-diag,.topbar,#page-home,#page-test,
+  .result-actions,.download-btn,.download-sub,
+  .print-report-btn,.tb-nav {display:none!important}
+  body {background:#fff;color:#000;font-size:10pt}
+  .results-wrap {padding:0}
+  .diag-report-header {
+    background:#0f766e!important;color:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;
+  }
+  .drh-title,.drh-score-num,.drh-score-num span {color:#fff!important}
+  .result-section,#page-results {display:block!important}
+  .dmap-card {border:1pt solid #ccc;break-inside:avoid}
+  .study-plan-table td,.study-plan-table th {border-color:#ddd!important}
+  .weight-callout {background:#fffbeb!important;border-color:#fcd34d!important;color:#000!important}
+}
+
+</style>
+</head>
+<body>
+
+<div class="screen-flash" id="sf"></div>
+
+<!-- ════ LOGIN MODAL ════ -->
+<div class="modal-overlay" id="login-modal">
+  <div class="modal-box">
+    <div class="modal-icon">🩺</div>
+    <div class="modal-title">Sports Medicine EOPA 701</div>
+    <div class="modal-sub">Enter your name to begin. Your results will be saved for your teacher's report.</div>
+    <div class="modal-field">
+      <label class="modal-label" for="input-first">First Name</label>
+      <input class="modal-input" id="input-first" type="text" placeholder="First name..." autocomplete="given-name">
+    </div>
+    <div class="modal-field">
+      <label class="modal-label" for="input-last">Last Name</label>
+      <input class="modal-input" id="input-last" type="text" placeholder="Last name..." autocomplete="family-name">
+    </div>
+    <button class="modal-btn" onclick="submitLogin()">Get Started →</button>
+    <div class="modal-error" id="login-error">Please enter both first and last name.</div>
+    <div class="modal-note">No account needed · Progress saves to this device</div>
+  </div>
+</div>
+
+<!-- ════ TOPBAR ════ -->
+<header class="topbar">
+  <div class="tb-logo">
+    <div class="tb-logo-dot">⚕</div>
+    <div class="tb-logo-text">Sports <em>Medicine</em> EOPA</div>
+  </div>
+  <div class="tb-spacer"></div>
+  <nav class="tb-nav">
+    <button class="tb-btn active" id="nav-home" onclick="showPage('home')">Home</button>
+    <button class="tb-btn" id="nav-flash" onclick="showPage('flashcards')">Flashcards</button>
+    <button class="tb-btn" id="nav-diag" onclick="requireLogin(startDiagnostic)">Diagnostic</button>
+    <button class="tb-btn" id="nav-prac" onclick="requireLogin(startPractice)">Practice Test</button>
+  </nav>
+</header>
+
+<!-- ════ HOME PAGE ════ -->
+<div id="page-home" class="page">
+
+  <section class="hero">
+    <div class="hero-badge">EOPA Exam 701 Preparation</div>
+    <h1 class="hero-h1">Sports<br><em>Medicine</em><br>Exam Prep</h1>
+    <p class="hero-sub">Everything you need to prepare for your End-of-Pathway Assessment — diagnostic test, 60-question practice exam, vocabulary flashcards, and interactive activities.</p>
+    <p class="hero-credit">
+      <strong>Built by a teacher</strong> with alignment to
+      <strong>HOSA Sports Medicine Career and Technical Student Organizations</strong>
+      content material. All 12 EOPA standards covered across DOK Levels 1, 2, and 3.
+    </p>
+    <div class="hero-btns">
+      <button class="h-btn primary" onclick="requireLogin(startDiagnostic)">🎯 Take Diagnostic Test</button>
+      <button class="h-btn amber" onclick="requireLogin(startPractice)">📝 60-Question Practice</button>
+      <button class="h-btn secondary" onclick="showPage('flashcards')">🃏 Study Flashcards</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hs"><div class="hs-num">12</div><div class="hs-lbl">Standards</div></div>
+      <div class="hs"><div class="hs-num"><span>60</span></div><div class="hs-lbl">Practice Qs</div></div>
+      <div class="hs"><div class="hs-num">166</div><div class="hs-lbl">Flashcards</div></div>
+      <div class="hs"><div class="hs-num">3</div><div class="hs-lbl">DOK Levels</div></div>
+    </div>
+  </section>
+
+  <!-- Tools -->
+  <div class="section tools-section">
+    <div class="section-eyebrow">Study Tools</div>
+    <h2 class="section-title">Four ways to prepare</h2>
+    <p class="section-sub">Start with the diagnostic to find your weak spots, then use the other tools to master every standard.</p>
+    <div class="tools-grid">
+      <div class="tool-card" style="--tc1:#0d9488;--tc2:#0f766e">
+        <div class="tc-icon">🎯</div>
+        <div class="tc-title">Diagnostic Test</div>
+        <div class="tc-sub">24 questions across all 12 standards — pinpoints exactly where you need to focus.</div>
+        <div class="tc-features">
+          <div class="tc-feat">Domain performance map</div>
+          <div class="tc-feat">Personalized study recommendations</div>
+          <div class="tc-feat">Takes under 10 minutes</div>
+        </div>
+        <button class="tc-btn teal" onclick="requireLogin(startDiagnostic)">Start Diagnostic →</button>
+      </div>
+      <div class="tool-card" style="--tc1:#f59e0b;--tc2:#d97706">
+        <div class="tc-icon">📝</div>
+        <div class="tc-title">Practice Test</div>
+        <div class="tc-sub">60 questions spanning DOK 1–3, weighted to match the actual EOPA exam proportions.</div>
+        <div class="tc-features">
+          <div class="tc-feat">DOK Level 1, 2 &amp; 3 questions</div>
+          <div class="tc-feat">Rationale for every answer</div>
+          <div class="tc-feat">Live timer + keyboard shortcuts</div>
+        </div>
+        <button class="tc-btn amber" onclick="requireLogin(startPractice)">Start Practice →</button>
+      </div>
+      <div class="tool-card" style="--tc1:#a855f7;--tc2:#9333ea">
+        <div class="tc-icon">🃏</div>
+        <div class="tc-title">Vocabulary Flashcards</div>
+        <div class="tc-sub">166 terms organized by standard — flip to reveal definitions, filter by domain.</div>
+        <div class="tc-features">
+          <div class="tc-feat">All 12 standards covered</div>
+          <div class="tc-feat">Filter by standard</div>
+          <div class="tc-feat">Flip animation</div>
+        </div>
+        <button class="tc-btn rose" onclick="showPage('flashcards')">Study Flashcards →</button>
+      </div>
+      <div class="tool-card" style="--tc1:#06b6d4;--tc2:#0891b2">
+        <div class="tc-icon">🔗</div>
+        <div class="tc-title">Kinetic Chain Activity</div>
+        <div class="tc-sub">Drag-and-drop exercise classification — Closed vs Open Kinetic Chain. Standard 12.</div>
+        <div class="tc-features">
+          <div class="tc-feat">Visual exercise images</div>
+          <div class="tc-feat">Immediate feedback</div>
+          <div class="tc-feat">Mobile touch support</div>
+        </div>
+        <button class="tc-btn teal" onclick="document.getElementById('dd-anchor').scrollIntoView({behavior:'smooth'})">Try Activity →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Flashcard preview / domains -->
+  <div class="section domain-section">
+    <div class="section-eyebrow">Exam Coverage</div>
+    <h2 class="section-title">All 12 Standards</h2>
+    <p class="section-sub">Every EOPA standard covered. Percentages show exam weight — Standard 7 alone is 19%.</p>
+    <div class="domain-grid">
+      <div class="domain-pill" style="--dc:#6366f1"><div class="dp-pct">6%</div><div class="dp-code">FUND</div><div class="dp-name">Fundamentals</div></div>
+      <div class="domain-pill" style="--dc:#8b5cf6"><div class="dp-pct">4%</div><div class="dp-code">PSYC</div><div class="dp-name">Psychology</div></div>
+      <div class="domain-pill" style="--dc:#ef4444"><div class="dp-pct">12%</div><div class="dp-code">HEAL</div><div class="dp-name">Injury &amp; Healing</div></div>
+      <div class="domain-pill" style="--dc:#f97316"><div class="dp-pct">8%</div><div class="dp-code">HEAD</div><div class="dp-name">Head &amp; Neck</div></div>
+      <div class="domain-pill" style="--dc:#eab308"><div class="dp-pct">4%</div><div class="dp-code">NUTR</div><div class="dp-name">Nutrition</div></div>
+      <div class="domain-pill" style="--dc:#22c55e"><div class="dp-pct">4%</div><div class="dp-code">BODY</div><div class="dp-name">Body Comp</div></div>
+      <div class="domain-pill" style="--dc:#06b6d4"><div class="dp-pct">19%</div><div class="dp-code">LOEX</div><div class="dp-name">Lower Extremity</div></div>
+      <div class="domain-pill" style="--dc:#3b82f6"><div class="dp-pct">8%</div><div class="dp-code">PERF</div><div class="dp-name">Performance</div></div>
+      <div class="domain-pill" style="--dc:#a855f7"><div class="dp-pct">8%</div><div class="dp-code">STRN</div><div class="dp-name">Strength &amp; Aids</div></div>
+      <div class="domain-pill" style="--dc:#ec4899"><div class="dp-pct">9%</div><div class="dp-code">UPEX</div><div class="dp-name">Upper Extremity</div></div>
+      <div class="domain-pill" style="--dc:#10b981"><div class="dp-pct">9%</div><div class="dp-code">INJR</div><div class="dp-name">First Aid</div></div>
+      <div class="domain-pill" style="--dc:#0ea5e9"><div class="dp-pct">9%</div><div class="dp-code">REHB</div><div class="dp-name">Rehabilitation</div></div>
+    </div>
+  </div>
+
+  <!-- DOK Levels -->
+  <div style="background:var(--ink2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:clamp(48px,7vw,72px) clamp(20px,5vw,60px)" class="dok-section-wrap">
+    <div style="max-width:1000px;margin:0 auto">
+      <div class="section-eyebrow">Depth of Knowledge</div>
+      <h2 class="section-title">Understanding DOK Levels</h2>
+      <p class="section-sub">The EOPA tests three levels of thinking. Knowing the difference helps you study smarter.</p>
+      <div class="dok-grid">
+        <div class="dok-card dok-d1">
+          <div class="dok-bg-num">1</div>
+          <div class="dok-tag">DOK Level 1</div>
+          <div class="dok-name">Recall &amp; Reproduce</div>
+          <div class="dok-desc">Remember facts, definitions, and basic concepts.</div>
+          <div class="dok-ex">"What does RICE stand for?" · "Define hyponatremia."</div>
+        </div>
+        <div class="dok-card dok-d2">
+          <div class="dok-bg-num">2</div>
+          <div class="dok-tag">DOK Level 2</div>
+          <div class="dok-name">Skills &amp; Concepts</div>
+          <div class="dok-desc">Apply knowledge, compare ideas, explain how or why.</div>
+          <div class="dok-ex">"Why does cryotherapy reduce swelling?" · "How does Wolff's Law apply?"</div>
+        </div>
+        <div class="dok-card dok-d3">
+          <div class="dok-bg-num">3</div>
+          <div class="dok-tag">DOK Level 3</div>
+          <div class="dok-name">Strategic Thinking</div>
+          <div class="dok-desc">Analyze scenarios, evaluate options, draw conclusions.</div>
+          <div class="dok-ex">"Which finding BEST indicates a Grade III ACL tear?"</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Drag-Drop Activity -->
+  <div id="dd-anchor" class="section dd-section-wrap">
+    <div class="section-eyebrow">Interactive Activity</div>
+    <h2 class="section-title">Kinetic Chain Classification</h2>
+    <p class="section-sub">Drag each exercise into the correct category. Standard 12 — Rehabilitation &amp; Modalities.</p>
+    <div class="dd-wrap">
+      <div class="dd-header-bar">
+        <div class="ddh-icon">🔗</div>
+        <div>
+          <div class="ddh-title">Closed vs Open Kinetic Chain</div>
+          <div class="ddh-sub">Standard 12 · Rehabilitation &amp; Modalities · HOSA Aligned</div>
+        </div>
+      </div>
+      <div class="dd-instruct">
+        <strong>Instructions:</strong> Drag each exercise into <strong>Closed Kinetic Chain (CKC)</strong> or <strong>Open Kinetic Chain (OKC)</strong>. Tap a placed card to return it. Press Check Answers when all 4 are placed.
+      </div>
+      <div class="dd-body">
+        <div class="dd-bank-lbl">Exercise Bank</div>
+        <div class="dd-bank" id="dd-bank" ondragover="ddOver(event)" ondrop="ddDropBank(event)" ondragleave="ddLeave(event)">
+          <div class="ex-card" id="ex-pullup" draggable="true" data-correct="ckc" ondragstart="ddStart(event,'ex-pullup')" onclick="ddReturnToBank('ex-pullup')">
+            <img id="img-pullup" alt="Pullup"><div class="ex-card-lbl">Pull-Up</div>
+          </div>
+          <div class="ex-card" id="ex-pushup" draggable="true" data-correct="ckc" ondragstart="ddStart(event,'ex-pushup')" onclick="ddReturnToBank('ex-pushup')">
+            <img id="img-pushup" alt="Pushup"><div class="ex-card-lbl">Push-Up</div>
+          </div>
+          <div class="ex-card" id="ex-curl" draggable="true" data-correct="okc" ondragstart="ddStart(event,'ex-curl')" onclick="ddReturnToBank('ex-curl')">
+            <img id="img-curl" alt="Curl"><div class="ex-card-lbl">Dumbbell Curl</div>
+          </div>
+          <div class="ex-card" id="ex-legext" draggable="true" data-correct="okc" ondragstart="ddStart(event,'ex-legext')" onclick="ddReturnToBank('ex-legext')">
+            <img id="img-legext" alt="Legext">
+          </div><!-- end dd-bank -->
+          <div class="dd-zones-row">
+            <div class="drop-zone" id="zone-ckc" style="--dz:#06b6d4"
+                 ondragover="ddOver(event)" ondrop="ddDrop(event,'ckc')" ondragleave="ddLeave(event)">
+              <div class="dz-title">🔒 Closed Kinetic Chain</div>
+              <div class="dz-def">Distal segment is <strong>fixed</strong> — hand or foot pushes against a stable surface.</div>
+              <div class="dz-items" id="ckc-items"><span class="dz-ph" id="ckc-ph">Drop here</span></div>
+            </div>
+            <div class="drop-zone" id="zone-okc" style="--dz:#f43f5e"
+                 ondragover="ddOver(event)" ondrop="ddDrop(event,'okc')" ondragleave="ddLeave(event)">
+              <div class="dz-title">🔓 Open Kinetic Chain</div>
+              <div class="dz-def">Distal segment moves <strong>freely</strong> — limb is not fixed, typically isolates one joint.</div>
+              <div class="dz-items" id="okc-items"><span class="dz-ph" id="okc-ph">Drop here</span></div>
+            </div>
+          </div>
+          <div class="dd-ctrl-row">
+            <button class="dd-btn-check" id="dd-check" onclick="ddCheck()" disabled>&#10003; Check Answers</button>
+            <button class="dd-btn-reset" onclick="ddReset()">&#8635; Reset</button>
+            <div class="dd-msg" id="dd-msg"></div>
+          </div>
+        </div>
+      </div>
+    </div><!-- end dd-anchor -->
+
+    <!-- CTA -->
+    <div class="cta-wrap" style="background:linear-gradient(135deg,var(--teal3),var(--ink2));padding:clamp(52px,8vw,80px) 20px;text-align:center;border-top:1px solid var(--border)">
+      <div style="max-width:520px;margin:0 auto">
+        <div style="font-size:2.8rem;margin-bottom:14px">&#127942;</div>
+        <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.8rem,5vw,2.6rem);color:var(--white);margin-bottom:10px;letter-spacing:-.02em">Ready to get EOPA ready?</h2>
+        <p style="font-size:14px;color:var(--text2);margin-bottom:28px;line-height:1.75">Start with the 24-question diagnostic to see where you stand, then use the practice test and flashcards to fill the gaps.</p>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+          <button class="h-btn primary" onclick="requireLogin(startDiagnostic)">&#127919; Take Diagnostic</button>
+          <button class="h-btn secondary" onclick="showPage('flashcards')">&#127183; Study Flashcards</button>
+        </div>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      <div class="sf-logo">Sports <em>Medicine</em> EOPA 701</div>
+      <div class="sf-sub">
+        Built by a teacher with alignment to HOSA Sports Medicine Career and Technical Student Organizations content material.<br>
+        For educational use &middot; All 12 EOPA standards &middot; DOK Levels 1&ndash;3
+      </div>
+    </footer>
+
+  </div><!-- end page-home -->
+
+  <!-- FLASHCARDS PAGE -->
+  <div id="page-flashcards" class="page hidden">
+    <div class="flash-section">
+      <div class="section-eyebrow">Vocabulary</div>
+      <h2 class="section-title">Flashcards by Standard</h2>
+      <p class="section-sub" style="margin-bottom:20px">166 terms across all 12 standards. Click any card to flip. Filter by standard to focus your study.</p>
+      <div class="flash-filter-row" id="flash-filters"></div>
+      <div class="flash-grid" id="flash-grid"></div>
+    </div>
+  </div>
+
+  <!-- TEST PAGE -->
+  <div id="page-test" class="page hidden">
+    <div id="test-view">
+      <div class="test-top-bar">
+        <div>
+          <div class="ttb-mode" id="ttb-mode">Practice Test</div>
+          <div class="ttb-title" id="ttb-title">Sports Medicine EOPA 701</div>
+          <div class="ttb-meta" id="ttb-meta">
+            <span id="ttb-q">Q1/60</span>
+            <span id="ttb-dok">DOK 1</span>
+            <span id="ttb-std">&mdash;</span>
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0">
+          <div class="ttb-timer" id="ttb-timer">00:00</div>
+          <div class="ttb-timer-lbl">elapsed</div>
+        </div>
+      </div>
+      <div class="prog-info"><span id="prog-lbl">Q1 of 60</span><span id="prog-score">0 correct</span></div>
+      <div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-fill" style="width:0%"></div></div>
+      <div id="q-area"></div>
+    </div>
+  </div>
+
+  <!-- RESULTS PAGE -->
+  <div id="page-results" class="page hidden">
+    <div class="results-wrap">
+      <div class="print-header" id="print-header">
+        <div class="ph-title">Sports Medicine EOPA 701 &mdash; Results Report</div>
+        <div class="ph-sub">HOSA Aligned &middot; DOK Levels 1&ndash;3 &middot; All 12 Standards</div>
+        <div class="ph-student" id="print-student-name"></div>
+      </div>
+      <div id="results-content"></div>
+    </div>
+  </div>
+<script>
+const PRACTICE_60=[{"q":"Referred pain is BEST described as:","opts":["Pain perceived at a location distant from the actual site of injury or pathology","Pain that increases proportionally with greater tissue damage","Pain localized precisely at the injury site only","Pain that resolves immediately when the injury is treated"],"ans":0,"expl":"Referred pain = the brain misinterprets the origin of the pain signal. Classic example: cardiac pain referred to left arm/jaw. Important in athletic assessment — pain location ≠ injury location.","dok":3,"std":"std4"},{"q":"Bulimia Nervosa differs from Anorexia in that Bulimia involves:","opts":["Recurrent cycles of BINGE eating followed by compensatory behaviors (purging, fasting, excessive exercise) — body weight may appear normal","Exclusively severe food restriction without any bingeing episodes","Obsessive focus on gaining muscle rather than losing fat","Only occurring in athletes with very low body weight"],"ans":0,"expl":"Bulimia: binge (large amount, loss of control) → purge (self-induced vomiting, laxatives, over-exercise). Body weight often normal-range. Signs: dental erosion, Russell's sign (knuckle calluses), parotid enlargement.","dok":3,"std":"std6"},{"q":"During prophylactic ankle taping, which taping component runs from the anchor UNDER the heel and up to the anchor on the other side?","opts":["Stirrup","Horseshoe","Heel lock","Checkrein/fan"],"ans":0,"expl":"Stirrups = U-shaped strips going under the heel from medial anchor to lateral anchor. They are the main structural component of ankle taping.","dok":2,"std":"std7"},{"q":"Abduction of the arm at the shoulder means:","opts":["Moving the arm AWAY from the midline of the body","Moving the arm TOWARD the midline of the body","Rotating the arm inward toward the body","Moving the arm forward in the sagittal plane (flexion)"],"ans":0,"expl":"ABduction = Away from the body's midline. ADduction = ADD it back toward midline. The deltoid (primarily supraspinatus 0-15°) performs arm abduction.","dok":1,"std":"std10"},{"q":"During exercise, the MOST critical nutrient for regulating body temperature is:","opts":["Water — through sweating and evaporative cooling","Sodium — primary electrolyte in sweat","Carbohydrates — fuel for thermoregulatory processes","Potassium — regulates cellular fluid balance"],"ans":0,"expl":"Water enables sweating (evaporative cooling = primary heat loss mechanism). Even 2% dehydration impairs performance. 3-5% = significant impairment. >7% = heat illness risk. Hydration is the #1 ergogenic aid.","dok":3,"std":"std5"},{"q":"The return-to-play protocol for concussion requires:","opts":["A stepwise, symptom-free progression through activity levels before full return, cleared by a physician","Immediate return once headache resolves, typically within 24 hours","Two weeks of rest regardless of symptom resolution","Return to play when the athlete subjectively feels ready"],"ans":0,"expl":"Return to Play (RTP) protocol: 6 steps from complete rest to full contact practice. Each step = 24 hours minimum. ANY symptom return = back to previous step. Physician clearance required.","dok":1,"std":"std4"},{"q":"In risk management for athletic settings, which activity type carries the HIGHEST risk of injury?","opts":["Collision sports (football, hockey, rugby) where direct body-to-body contact is the nature of the sport","Non-contact sports like golf or bowling","Limited contact sports like baseball or volleyball","Individual precision sports like archery or shooting"],"ans":0,"expl":"Risk classification: Collision (highest risk) → Contact → Limited Contact → Non-contact. This classification guides liability, insurance requirements, and medical coverage decisions.","dok":1,"std":"std1"},{"q":"The patella is embedded within which structure?","opts":["The quadriceps/patellar tendon mechanism","The ACL complex at the tibial plateau","The iliotibial (IT) band on the lateral knee","The medial retinaculum of the knee"],"ans":0,"expl":"The patella is a sesamoid bone within the quadriceps tendon. It increases the mechanical advantage of the quad during knee extension.","dok":1,"std":"std7"},{"q":"The Q-angle is relevant to patellofemoral pain syndrome because:","opts":["A larger Q-angle increases lateral patellar tracking forces, predisposing to injury","A smaller Q-angle causes medial patellar compression","The Q-angle measures hamstring flexibility","A normal Q-angle indicates ACL laxity"],"ans":0,"expl":"Q-angle = angle of pull of the quadriceps. Females typically have larger Q-angles due to wider hips, increasing patellofemoral stress.","dok":1,"std":"std7"},{"q":"An inversion ankle sprain most commonly injures which ligament FIRST?","opts":["Anterior Talofibular Ligament (ATF)","Deltoid Ligament","Posterior Cruciate Ligament (PCL)","Calcaneofibular Ligament (CFL)"],"ans":0,"expl":"The ATF is the weakest lateral ankle ligament and is the MOST commonly sprained. Inversion + plantarflexion = classic mechanism.","dok":3,"std":"std7"},{"q":"A subdural hematoma involves bleeding:","opts":["Between the dura mater and the surface of the brain (subdural space)","Above the dura mater (epidural space — between skull and dura)","Within the brain tissue itself (intracerebral)","In the subarachnoid space between the arachnoid and pia mater"],"ans":0,"expl":"Sub = below. Subdural = below the dura mater. Epidural = above/outside the dura (typically arterial, rapid). Subdural = typically venous, slower accumulation.","dok":2,"std":"std4"},{"q":"The R.I.C.E. method for acute injury management stands for:","opts":["Rest, Ice, Compression, Elevation","Run, Ice, Cool, Examine","Rest, Immobilize, Compress, Exercise","Reduce, Ice, Compress, Elevate"],"ans":0,"expl":"R.I.C.E. = Rest (stop activity), Ice (vasoconstrict, reduce swelling), Compression (limit edema), Elevation (drain fluid via gravity). Applied immediately post-injury.","dok":1,"std":"std11"},{"q":"The glenoid labrum functions primarily to:","opts":["Deepen the glenoid fossa to improve glenohumeral joint stability","Protect the subacromial bursa from friction","Connect the clavicle to the acromion","Serve as the origin of the biceps short head"],"ans":0,"expl":"The labrum deepens the shallow glenoid by 50%, significantly improving joint congruency and shoulder stability. Tears → instability (Bankart lesion).","dok":2,"std":"std10"},{"q":"Rotator cuff injuries most commonly affect which muscle?","opts":["Supraspinatus — due to its location in the subacromial space","Subscapularis — due to internal rotation demand","Infraspinatus — due to external rotation overuse","Teres minor — due to its thin, vulnerable insertion"],"ans":0,"expl":"The supraspinatus passes through the subacromial space and is most vulnerable to impingement and degenerative tearing. Most common RTC tear.","dok":3,"std":"std10"},{"q":"Ballistic stretching differs from dynamic stretching in that ballistic:","opts":["Uses BOUNCING or jerking motions at end range — higher injury risk due to uncontrolled ballistic forces","Is controlled, sport-specific movement through range of motion at functional speed","Involves a partner applying progressive force to increase range","Is a static stretch maintained for 30+ seconds without movement"],"ans":0,"expl":"Ballistic = uncontrolled bouncing (activates muscle SPINDLES = stretch reflex → tighter muscle). Dynamic = controlled movement through range (preferred pre-exercise). PNF = contract-relax.","dok":3,"std":"std9"},{"q":"Overconfidence in an athlete is problematic because:","opts":["It leads to underestimating opponents, skipping preparation, and taking unnecessary risks — causing preventable errors","It consistently improves performance across all sport types","It is indistinguishable from true self-confidence based on ability","It only affects team sport athletes and not individual sport performers"],"ans":0,"expl":"Optimal performance requires calibrated confidence — neither under- nor overconfident. Overconfidence → poor preparation, complacency, risk-taking. Self-confidence based on actual preparation and skill = performance enhancing.","dok":3,"std":"std2"},{"q":"HIPAA in sports medicine PRIMARILY protects:","opts":["The privacy of an athlete's protected health information (PHI)","The athletic trainer from lawsuits during emergency care","The school from equipment liability claims","The coach's ability to release injury status to media"],"ans":0,"expl":"HIPAA (Health Insurance Portability and Accountability Act) protects PHI — an athlete's health information cannot be shared without consent. Critical in athletic training rooms.","dok":1,"std":"std1"},{"q":"For a suspected spinal injury in an unconscious athlete, the PRIORITY is:","opts":["Maintain in-line spinal stabilization and monitor airway, breathing, circulation (ABCs)","Remove the helmet and face mask immediately to assess breathing","Log-roll the athlete onto their back to clear the airway","Apply traction to decompress the cervical spine"],"ans":0,"expl":"Cervical spine injuries = do NOT move. Maintain in-line stabilization throughout assessment. Only remove helmet if: cannot maintain airway, cannot assess breathing, CPR needed.","dok":1,"std":"std11"},{"q":"A second-degree (Grade II) injury is best described as:","opts":["Partial tear of tissue with moderate pain and some loss of function","Complete rupture of tissue with total loss of function","Microscopic tearing with mild pain and no loss of function","Bone fracture with associated soft tissue damage"],"ans":0,"expl":"Grade I = mild/microscopic. Grade II = partial tear, moderate. Grade III = complete rupture.","dok":3,"std":"std3"},{"q":"The Female Athlete Triad consists of:","opts":["Low energy availability (disordered eating) + menstrual dysfunction (amenorrhea) + low bone mineral density","Anemia + fatigue + stress fractures","Overtraining + dehydration + vitamin D deficiency","Low testosterone + depression + muscle atrophy"],"ans":0,"expl":"Female Athlete Triad: energy deficiency → hormonal disruption → bone loss. Interconnected conditions. Low energy can be intentional (eating disorder) or unintentional (inadequate intake for training load). Serious long-term bone health consequences.","dok":1,"std":"std6"},{"q":"Vasodilation occurs during the inflammatory phase PRIMARILY to:","opts":["Increase blood flow and deliver white blood cells to the injury site","Decrease pain by numbing the area","Remove scar tissue adhesions","Prevent secondary cell death immediately"],"ans":0,"expl":"Vasodilation opens blood vessels, flooding the injury with WBCs, oxygen, and nutrients needed for repair.","dok":2,"std":"std3"},{"q":"Plantar fasciitis is characterized by:","opts":["Sharp, stabbing heel pain that is WORST with the first steps in the morning","Lateral ankle pain following an inversion mechanism","Anterior knee pain that worsens with stair climbing","Diffuse calf pain during sustained running"],"ans":0,"expl":"Classic plantar fasciitis: pain at the plantar calcaneus (heel), worse with first morning steps, improves with movement, worsens after long activity.","dok":1,"std":"std7"},{"q":"Progressive muscle relaxation (PMR) as an anxiety management technique involves:","opts":["Systematically tensing and then releasing muscle groups throughout the body to reduce physical tension and anxiety","Running at progressively increasing speeds to build cardiovascular confidence","Gradually adding weight to a strength training program over time","A series of dynamic warm-up movements performed before competition"],"ans":0,"expl":"PMR: tense a muscle group maximally for 5-10 seconds → release completely → notice the contrast. Progressively move through the body. Reduces somatic anxiety and promotes body awareness.","dok":2,"std":"std2"},{"q":"Medial Tibial Stress Syndrome (shin splints) is best associated with:","opts":["Overuse, rapid increase in training volume, excessive pronation, and hard surfaces","A single traumatic impact to the tibia during collision","Ligament laxity at the subtalar joint causing instability","Nerve compression in the popliteal fossa"],"ans":0,"expl":"Shin splints = overuse injury. Risk factors: training volume spike, flat feet/overpronation, hard surfaces, poor footwear.","dok":2,"std":"std7"},{"q":"Wolff's Law states that:","opts":["Bone adapts its structure in response to the mechanical stresses placed upon it","Injured tissue always heals weaker than the original","Scar tissue is stronger than the original collagen","Muscles hypertrophy only under eccentric load"],"ans":0,"expl":"Wolff's Law: bone remodels its architecture based on the loads it experiences — the foundation of bone rehab.","dok":1,"std":"std3"},{"q":"Heat STROKE differs from heat EXHAUSTION in that heat stroke:","opts":["Features hot, DRY skin and altered mental status — it is a LIFE-THREATENING emergency","Features heavy sweating with normal core temperature","Is less serious and managed with rest and fluids only","Occurs only in humid environments"],"ans":0,"expl":"Heat stroke = thermoregulatory failure → CNS dysfunction. Hot DRY skin (sweating mechanism fails), core temp >104°F. CALL 911. Cold water immersion is treatment.","dok":3,"std":"std11"},{"q":"Which career requires a doctoral degree (MD or DO) and involves diagnosing/treating musculoskeletal injuries surgically?","opts":["Orthopedic Surgeon","Certified Athletic Trainer","Physical Therapist","Exercise Physiologist"],"ans":0,"expl":"Orthopedic Surgeon (MD or DO + surgical residency) specializes in surgical treatment of musculoskeletal conditions. A Physical Therapist requires a DPT (doctorate). An AT requires a master's degree.","dok":2,"std":"std1"},{"q":"Aerobic metabolism differs from anaerobic metabolism in that aerobic:","opts":["Uses oxygen to produce large amounts of ATP — sustainable for extended exercise at moderate intensity","Produces energy faster than aerobic but creates lactic acid — used for high-intensity short bursts","Relies exclusively on stored glycogen without any oxygen requirement","Produces the same amount of ATP per glucose molecule as anaerobic"],"ans":0,"expl":"Aerobic: O2 required → 36–38 ATP per glucose → sustained. Anaerobic (glycolysis): no O2 → 2 ATP per glucose → fast but brief → lactic acid accumulates → fatigue.","dok":3,"std":"std8"},{"q":"Which type of goal focuses on the PROCESS of performance rather than the outcome?","opts":["Process goals (e.g., 'Keep my elbow up during every throw today')","Outcome goals (e.g., 'Win the championship')","Performance goals (e.g., 'Throw the ball at 90 mph')","SMART goals (a framework that can apply to any goal type)"],"ans":0,"expl":"Goal types: Process (focus on execution technique), Performance (personal improvement metrics), Outcome (win/lose results). Process and performance goals are most within athlete control and most effective for improvement.","dok":1,"std":"std2"},{"q":"Which phase of healing involves fibroblast activity and collagen synthesis to form scar tissue?","opts":["Subacute (Repair & Regeneration) Phase","Acute (Inflammation) Phase","Remodeling (Maturation) Phase","Hemostasis Phase"],"ans":0,"expl":"Fibroblasts produce collagen during the Subacute/Repair phase (days 3–21). This creates the initial scar matrix.","dok":2,"std":"std3"},{"q":"An eccentric muscle contraction occurs when:","opts":["The muscle produces force while LENGTHENING (e.g., lowering a weight under control)","The muscle produces force while shortening (e.g., lifting a weight)","The muscle length stays the same while producing force","The muscle is fully relaxed between contractions"],"ans":0,"expl":"Eccentric = muscle lengthens under load. Example: biceps during lowering a dumbbell, quads going down stairs. Eccentric contractions produce the MOST force and cause MOST DOMS.","dok":2,"std":"std9"},{"q":"Which ankle movement involves the sole of the foot turning OUTWARD (away from midline)?","opts":["Eversion","Inversion","Dorsiflexion","Supination"],"ans":0,"expl":"Eversion = sole faces outward. Inversion = sole faces inward. Remember: EVERsion → EVERt outward. Inversion sprains are more common than eversion.","dok":2,"std":"std7"},{"q":"The ACL (Anterior Cruciate Ligament) primarily functions to prevent:","opts":["Anterior translation of the tibia on the femur","Posterior displacement of the tibia","Lateral (valgus) stress at the knee","Hyperextension of the hip"],"ans":0,"expl":"ACL = Anterior Cruciate Ligament. It resists anterior tibial translation (tibia sliding forward under femur). Most common serious knee injury in sports.","dok":2,"std":"std7"},{"q":"Tennis elbow (lateral epicondylitis) is caused by:","opts":["Overuse inflammation of the wrist EXTENSOR tendons at the lateral epicondyle","Overuse inflammation of the wrist FLEXOR tendons at the medial epicondyle","Acute fracture of the lateral epicondyle","Ulnar nerve compression at the cubital tunnel"],"ans":0,"expl":"Lateral epicondylitis = wrist extensors. Medial epicondylitis (Little Leaguer's elbow) = wrist flexors/pronators. 'LEFF' — Lateral Epicondyle = Flexion opposite Follows.","dok":2,"std":"std10"},{"q":"Which type of fracture involves the bone shattering into three or more fragments?","opts":["Comminuted","Spiral","Transverse","Longitudinal"],"ans":0,"expl":"Comminuted = 'crushed' — multiple fragments. Spiral = twisting force. Transverse = straight across the shaft.","dok":2,"std":"std3"},{"q":"Which macronutrient provides 4 kcal per gram AND is the body's preferred and primary fuel source during exercise?","opts":["Carbohydrates — stored as glycogen in muscle and liver","Fats — stored as triglycerides in adipose tissue","Proteins — made of amino acid chains","Vitamins — required in small amounts for metabolic reactions"],"ans":0,"expl":"Carbohydrates = 4 kcal/g. Proteins = 4 kcal/g. Fats = 9 kcal/g. Carbs are the primary fuel for high-intensity exercise. Glycogen depletion = 'hitting the wall.' Essential for sport performance.","dok":2,"std":"std5"},{"q":"The PRIMARY purpose of sports drinks during prolonged exercise (>60 min) is to:","opts":["Replace fluid, electrolytes (sodium/potassium), and carbohydrates lost through sweat and energy expenditure","Provide complete protein for muscle repair during activity","Suppress appetite to maintain weight during competition","Permanently increase blood volume and cardiovascular capacity"],"ans":0,"expl":"Sports drinks (6-8% CHO solution + electrolytes): optimal absorption rate, replace sweat losses, maintain blood glucose. Plain water sufficient for <60 min exercise. Electrolytes prevent hyponatremia in long events.","dok":2,"std":"std5"},{"q":"Carbohydrate loading is MOST beneficial for athletes competing in:","opts":["Endurance events lasting more than 90 minutes (marathon, triathlon, cycling road race)","Short sprint events under 30 seconds","Strength and power sports like weightlifting or throwing events","Flexibility-based activities like gymnastics or yoga"],"ans":0,"expl":"Carb loading maximizes glycogen stores. Only beneficial when glycogen will be depleted (>90 min continuous exercise). Involves tapering training + high-carb intake 3-4 days pre-event. Not useful for short events.","dok":1,"std":"std5"},{"q":"The Borg Scale of Perceived Exertion (RPE) is used to:","opts":["Subjectively rate exercise intensity based on how hard the effort FEELS, correlating with heart rate","Objectively measure blood lactate concentration during exercise","Calculate maximum heart rate and target training zones","Assess anaerobic threshold through ventilatory measurements"],"ans":0,"expl":"Borg RPE: 6 (no exertion) to 20 (maximal). RPE × 10 ≈ heart rate. Useful when heart rate monitoring unavailable. Valid, reliable tool for prescribing exercise intensity.","dok":1,"std":"std8"},{"q":"A 'burner' or 'stinger' injury in athletics is caused by:","opts":["Stretching or compression of the brachial plexus from neck lateral flexion away from the shoulder being depressed","Direct blow to the occiput causing concussion","Hyperflexion of the cervical spine causing spinal cord compression","Rotation injury to the C1-C2 junction"],"ans":0,"expl":"Stinger = neck laterally flexes AWAY while shoulder is DEPRESSED → brachial plexus is stretched. Results in burning/tingling radiating down the arm. Must be distinguished from cervical injury.","dok":2,"std":"std4"},{"q":"Fartlek training is BEST described as:","opts":["Unstructured interval training that varies speed and intensity spontaneously throughout a continuous run","Running at a fixed, constant pace for a predetermined distance","Alternating high-intensity intervals with complete rest periods","Circuit training combining cardiovascular and strength exercises"],"ans":0,"expl":"Fartlek (Swedish: 'speed play') = informal, spontaneous variation of intensity within a continuous run. Example: sprint to next tree, jog to corner, stride the hill. Great for developing aerobic AND anaerobic systems.","dok":3,"std":"std8"},{"q":"A glenohumeral dislocation most commonly occurs in which direction?","opts":["Anterior — the humeral head slides forward out of the glenoid","Posterior — the humeral head slides backward","Superior — under the acromion","Inferior — downward due to gravity and capsule laxity"],"ans":0,"expl":"95% of shoulder dislocations are ANTERIOR. Mechanism: arm abducted + externally rotated (e.g., tackling, falling on outstretched arm).","dok":3,"std":"std10"},{"q":"Which meniscus is MORE frequently injured and why?","opts":["The medial meniscus — it is firmly attached to the MCL and joint capsule, making it less mobile","The lateral meniscus — it is larger and bears more compressive load","The lateral meniscus — it is fused to the LCL and cannot move","Both are injured equally regardless of anatomy"],"ans":0,"expl":"Medial meniscus is more commonly torn because its attachment to the MCL restricts its movement, making it more vulnerable during valgus/rotation forces.","dok":2,"std":"std7"},{"q":"During a SOAP note, objective findings are BEST described as:","opts":["Measurable, observable data collected by the clinician (ROM, palpation findings, special tests)","Subjective pain ratings reported by the athlete","The clinician's diagnosis and clinical impression","The treatment plan and goals for recovery"],"ans":0,"expl":"SOAP: Subjective (what athlete says) → Objective (what you measure/observe) → Assessment (diagnosis) → Plan (treatment).","dok":3,"std":"std3"},{"q":"Little Leaguer's elbow (medial epicondylitis in youth) is caused by:","opts":["Repetitive valgus stress and medial traction forces during throwing","Lateral compression from repetitive backhand motions","Direct impact to the olecranon from falling","Radial head compression during carrying heavy loads"],"ans":0,"expl":"Repetitive throwing creates valgus stress → medial TRACTION on the growth plate (medial epicondyle apophysis) in skeletally immature athletes.","dok":2,"std":"std10"},{"q":"Turf toe is an injury to:","opts":["The metatarsophalangeal (MTP) joint of the great toe, typically from hyperextension","The plantar fascia at the calcaneal insertion","The peroneal tendons at the lateral ankle","The intermetatarsal bursae between the 2nd and 3rd toes"],"ans":0,"expl":"Turf toe = hyperextension sprain of the 1st MTP joint. Common in football/soccer on artificial turf. Can be career-altering if untreated.","dok":1,"std":"std7"},{"q":"In the sliding filament theory of muscle contraction, shortening of the sarcomere occurs when:","opts":["Actin (thin filaments) slide over myosin (thick filaments) toward the center of the sarcomere","Myosin filaments physically shorten in length during contraction","Both actin and myosin decrease in length simultaneously","ATP breaks the actin-myosin cross-bridge preventing further contraction"],"ans":0,"expl":"Sliding filament: myosin heads attach to actin → pull actin toward center → sarcomere shortens → MUSCLE CONTRACTS. The filaments themselves do NOT shorten — only their overlap increases.","dok":2,"std":"std9"},{"q":"Long-term cardiovascular adaptations to endurance training include:","opts":["Increased stroke volume, decreased resting heart rate (athlete's bradycardia), increased VO2max, cardiac hypertrophy","Increased resting heart rate and decreased stroke volume","Reduced cardiac output at maximal exercise","Decreased blood volume and capillary density"],"ans":0,"expl":"Chronic endurance training: heart enlarges (eccentric hypertrophy), SV↑, resting HR↓ (sometimes <40 bpm in elite athletes), plasma volume↑, mitochondrial density↑, VO2max↑.","dok":1,"std":"std8"},{"q":"Dorsiflexion of the ankle refers to:","opts":["Moving the dorsum (top) of the foot toward the shin","Pointing the toes downward (plantarflexion)","Turning the sole of the foot inward (inversion)","Turning the sole of the foot outward (eversion)"],"ans":0,"expl":"Dorsi = dorsum/top. Dorsiflexion brings the foot toward the shin. Think: walking uphill. Opposite = plantarflexion (pointing toes).","dok":2,"std":"std7"},{"q":"Burnout in athletes differs from staleness in that burnout:","opts":["Is a chronic state of emotional and physical exhaustion involving withdrawal from the sport — often permanent unless major changes occur","Is a temporary performance decline that fully resolves with a brief rest period","Only affects professional athletes under contract pressure","Is caused exclusively by physical overtraining without any psychological component"],"ans":0,"expl":"Staleness = temporary performance plateau (resolved with rest/variety). Burnout = deep exhaustion + depersonalization + reduced accomplishment — often requires major intervention, time off, or career re-evaluation.","dok":3,"std":"std2"},{"q":"An acromioclavicular (AC) joint separation is graded based on:","opts":["The degree of tearing of the AC and coracoclavicular ligaments","The amount of glenohumeral capsule damage","The number of rotator cuff tendons involved","The presence or absence of a glenoid labrum tear"],"ans":0,"expl":"AC separation grades I-VI based on ligament integrity: Grade I = AC ligament sprain only. Grade III = CC ligament torn + clavicle elevated. Grade VI = rare, severe.","dok":1,"std":"std10"},{"q":"Type I (slow-twitch) muscle fibers are best suited for:","opts":["Prolonged, low-intensity endurance activities (marathon, swimming) due to high oxidative capacity and fatigue resistance","Explosive, maximal force activities (sprinting, weightlifting)","Short anaerobic bursts requiring maximum power output","Activities requiring maximum speed over 10 seconds or less"],"ans":0,"expl":"Type I = slow, oxidative, red, fatigue RESISTANT. Type II = fast, glycolytic, white, fatigue QUICKLY. Type IIa = intermediate. Fiber type distribution is largely genetic.","dok":1,"std":"std9"},{"q":"Periodization in athletic training refers to:","opts":["Systematic variation of training volume, intensity, and specificity across defined time periods to optimize performance and prevent overtraining","The process of resting between sets during strength training","Measuring athletic performance improvements over a training season","Dividing a practice session into warm-up, training, and cool-down segments"],"ans":0,"expl":"Periodization: Macrocycle (year) → Mesocycles (months) → Microcycles (weeks). Includes preparation, competition, and transition phases. Prevents staleness, peaks performance strategically.","dok":2,"std":"std8"},{"q":"Immediate effects of exercise on the cardiovascular system include:","opts":["Increased heart rate, increased stroke volume, increased cardiac output, and vasodilation to working muscles","Decreased heart rate and increased blood pressure only","Reduced stroke volume to conserve cardiac energy","No changes until 10+ minutes of sustained exercise"],"ans":0,"expl":"Within seconds of exercise start: sympathetic NS → HR↑, SV↑, CO↑ (CO = HR×SV). Vasodilation in working muscles increases blood flow up to 20x. Ventilation increases immediately.","dok":1,"std":"std8"},{"q":"Visual imagery as a psychological performance technique involves:","opts":["Mentally rehearsing athletic skills and scenarios to strengthen neural pathways and improve execution","Watching video footage of an opponent's previous performances","Using mirrors during practice to monitor and correct technique","Visualizing an opponent's weaknesses to create competitive advantage"],"ans":0,"expl":"Mental imagery (visualization): creates or strengthens neurological motor patterns without physical movement. Used in rehabilitation AND performance. PETTLEP model guides effective imagery practice.","dok":2,"std":"std2"},{"q":"The clavicle fractures MOST commonly at:","opts":["The middle third of the shaft","The distal third near the AC joint","The medial third near the sternoclavicular joint","At the coracoclavicular ligament insertion"],"ans":0,"expl":"80% of clavicle fractures occur at the middle third — the weakest point. Mechanism: fall on outstretched hand (FOOSH) or direct blow.","dok":3,"std":"std10"},{"q":"Ecchymosis is the medical term for:","opts":["Bruising / discoloration from blood leaking into subcutaneous tissue","Swelling caused by excess fluid in joint space","Inflammation of a tendon sheath","Crackling sensation felt or heard during joint movement"],"ans":0,"expl":"Ecchymosis = bruising. Effusion = fluid in joint. Crepitus = crackling. Know these vocab terms for the EOPA!","dok":1,"std":"std3"},{"q":"When controlling EXTERNAL bleeding, the FIRST action should be:","opts":["Apply direct pressure with a sterile gauze pad to the wound","Apply a tourniquet proximal to the wound","Irrigate the wound with clean water","Elevate the extremity and apply ice"],"ans":0,"expl":"Direct pressure is always FIRST for external bleeding. Tourniquet = last resort for life-threatening, uncontrolled extremity bleeding. Pressure → pressure dressing → tourniquet.","dok":1,"std":"std11"},{"q":"A concussion is BEST defined as:","opts":["A traumatic brain injury caused by a blow or jolt to the head that alters brain function — no loss of consciousness required","A skull fracture with bleeding between the dura and the brain","Permanent brain damage from a single impact","Loss of consciousness lasting more than 60 seconds after head trauma"],"ans":0,"expl":"Concussion = functional brain injury, NOT structural. Loss of consciousness occurs in <10% of concussions. Any altered mental status (confusion, amnesia, slowed processing) = concussion.","dok":1,"std":"std4"},{"q":"Creatine supplementation works by:","opts":["Increasing phosphocreatine stores in muscle to rapidly regenerate ATP during short maximal efforts","Mimicking the effects of anabolic steroids on muscle protein synthesis","Reducing lactic acid production during aerobic exercise","Increasing red blood cell production similar to EPO"],"ans":0,"expl":"Creatine → phosphocreatine (PCr) stores. PCr donates phosphate to ADP → ATP regeneration (ATP-PCr system). Benefits: 3-15 sec maximal efforts (sprinting, lifting). One of few legal, evidence-based performance supplements.","dok":1,"std":"std9"}];
+const DIAG_24=[{"q":"HIPAA in sports medicine PRIMARILY protects:","opts":["The privacy of an athlete's protected health information (PHI)","The athletic trainer from lawsuits during emergency care","The school from equipment liability claims","The coach's ability to release injury status to media"],"ans":0,"expl":"HIPAA (Health Insurance Portability and Accountability Act) protects PHI — an athlete's health information cannot be shared without consent. Critical in athletic training rooms.","dok":1,"std":"std1"},{"q":"Which career requires a doctoral degree (MD or DO) and involves diagnosing/treating musculoskeletal injuries surgically?","opts":["Orthopedic Surgeon","Certified Athletic Trainer","Physical Therapist","Exercise Physiologist"],"ans":0,"expl":"Orthopedic Surgeon (MD or DO + surgical residency) specializes in surgical treatment of musculoskeletal conditions. A Physical Therapist requires a DPT (doctorate). An AT requires a master's degree.","dok":2,"std":"std1"},{"q":"To prevent or treat staleness in an athlete, an effective intervention would be to:","opts":["Allow the athlete greater control over their training, reduce emotional demands, and introduce variety","Increase training volume and intensity to 'push through' the performance plateau","Require mandatory participation to maintain team commitment","Eliminate all rest days to maintain training momentum"],"ans":0,"expl":"Staleness interventions: variety in training, time off, athlete autonomy, reduced stressors, supportive environment. AVOID forcing continued high-intensity training — this worsens staleness and risks burnout.","dok":1,"std":"std2"},{"q":"Overconfidence in an athlete is problematic because:","opts":["It leads to underestimating opponents, skipping preparation, and taking unnecessary risks — causing preventable errors","It consistently improves performance across all sport types","It is indistinguishable from true self-confidence based on ability","It only affects team sport athletes and not individual sport performers"],"ans":0,"expl":"Optimal performance requires calibrated confidence — neither under- nor overconfident. Overconfidence → poor preparation, complacency, risk-taking. Self-confidence based on actual preparation and skill = performance enhancing.","dok":3,"std":"std2"},{"q":"HIPS stands for:","opts":["History, Inspection, Palpation, Special Tests","History, Imaging, Pain Assessment, Strength","Healing, Inspection, Pressure, Stabilization","History, Immobilization, Palpation, Surgery"],"ans":0,"expl":"HIPS = History → Inspection → Palpation → Special Tests. This is the standard on-field assessment framework.","dok":1,"std":"std3"},{"q":"Which type of fracture involves the bone shattering into three or more fragments?","opts":["Comminuted","Spiral","Transverse","Longitudinal"],"ans":0,"expl":"Comminuted = 'crushed' — multiple fragments. Spiral = twisting force. Transverse = straight across the shaft.","dok":2,"std":"std3"},{"q":"A concussion is BEST defined as:","opts":["A traumatic brain injury caused by a blow or jolt to the head that alters brain function — no loss of consciousness required","A skull fracture with bleeding between the dura and the brain","Permanent brain damage from a single impact","Loss of consciousness lasting more than 60 seconds after head trauma"],"ans":0,"expl":"Concussion = functional brain injury, NOT structural. Loss of consciousness occurs in <10% of concussions. Any altered mental status (confusion, amnesia, slowed processing) = concussion.","dok":1,"std":"std4"},{"q":"A subdural hematoma involves bleeding:","opts":["Between the dura mater and the surface of the brain (subdural space)","Above the dura mater (epidural space — between skull and dura)","Within the brain tissue itself (intracerebral)","In the subarachnoid space between the arachnoid and pia mater"],"ans":0,"expl":"Sub = below. Subdural = below the dura mater. Epidural = above/outside the dura (typically arterial, rapid). Subdural = typically venous, slower accumulation.","dok":2,"std":"std4"},{"q":"What is the recommended timing for a post-exercise recovery meal or snack?","opts":["Within 30–60 minutes after exercise — the 'anabolic window' for glycogen resynthesis and muscle protein synthesis","3–4 hours after exercise when digestion is optimal","Immediately during cool-down activities","Only at the next regular meal time regardless of exercise timing"],"ans":0,"expl":"Post-exercise nutrition window (30-60 min): 3:1 to 4:1 CHO:protein ratio optimal. Glycogen resynthesis rate is highest immediately post-exercise. Waiting > 2 hours significantly slows recovery.","dok":1,"std":"std5"},{"q":"Which macronutrient provides 4 kcal per gram AND is the body's preferred and primary fuel source during exercise?","opts":["Carbohydrates — stored as glycogen in muscle and liver","Fats — stored as triglycerides in adipose tissue","Proteins — made of amino acid chains","Vitamins — required in small amounts for metabolic reactions"],"ans":0,"expl":"Carbohydrates = 4 kcal/g. Proteins = 4 kcal/g. Fats = 9 kcal/g. Carbs are the primary fuel for high-intensity exercise. Glycogen depletion = 'hitting the wall.' Essential for sport performance.","dok":2,"std":"std5"},{"q":"Safe rates of weight loss for athletes are generally considered to be:","opts":["0.5–1.0 lb (0.25–0.5 kg) per week — preserving lean muscle mass while losing primarily fat","3–5 lbs per week using severe caloric restriction for rapid results","Weight loss should not be attempted during any competitive season","5+ lbs per week is acceptable for athletes who need to make weight for competition"],"ans":0,"expl":"Safe weight loss: 0.5-1 lb/week. Faster loss risks muscle loss, decreased performance, nutrient deficiency, and eating disorder development. Never aggressive weight cutting in-season without medical supervision.","dok":1,"std":"std6"},{"q":"Bulimia Nervosa differs from Anorexia in that Bulimia involves:","opts":["Recurrent cycles of BINGE eating followed by compensatory behaviors (purging, fasting, excessive exercise) — body weight may appear normal","Exclusively severe food restriction without any bingeing episodes","Obsessive focus on gaining muscle rather than losing fat","Only occurring in athletes with very low body weight"],"ans":0,"expl":"Bulimia: binge (large amount, loss of control) → purge (self-induced vomiting, laxatives, over-exercise). Body weight often normal-range. Signs: dental erosion, Russell's sign (knuckle calluses), parotid enlargement.","dok":3,"std":"std6"},{"q":"The Q-angle is relevant to patellofemoral pain syndrome because:","opts":["A larger Q-angle increases lateral patellar tracking forces, predisposing to injury","A smaller Q-angle causes medial patellar compression","The Q-angle measures hamstring flexibility","A normal Q-angle indicates ACL laxity"],"ans":0,"expl":"Q-angle = angle of pull of the quadriceps. Females typically have larger Q-angles due to wider hips, increasing patellofemoral stress.","dok":1,"std":"std7"},{"q":"Medial Tibial Stress Syndrome (shin splints) is best associated with:","opts":["Overuse, rapid increase in training volume, excessive pronation, and hard surfaces","A single traumatic impact to the tibia during collision","Ligament laxity at the subtalar joint causing instability","Nerve compression in the popliteal fossa"],"ans":0,"expl":"Shin splints = overuse injury. Risk factors: training volume spike, flat feet/overpronation, hard surfaces, poor footwear.","dok":2,"std":"std7"},{"q":"The Borg Scale of Perceived Exertion (RPE) is used to:","opts":["Subjectively rate exercise intensity based on how hard the effort FEELS, correlating with heart rate","Objectively measure blood lactate concentration during exercise","Calculate maximum heart rate and target training zones","Assess anaerobic threshold through ventilatory measurements"],"ans":0,"expl":"Borg RPE: 6 (no exertion) to 20 (maximal). RPE × 10 ≈ heart rate. Useful when heart rate monitoring unavailable. Valid, reliable tool for prescribing exercise intensity.","dok":1,"std":"std8"},{"q":"Aerobic metabolism differs from anaerobic metabolism in that aerobic:","opts":["Uses oxygen to produce large amounts of ATP — sustainable for extended exercise at moderate intensity","Produces energy faster than aerobic but creates lactic acid — used for high-intensity short bursts","Relies exclusively on stored glycogen without any oxygen requirement","Produces the same amount of ATP per glucose molecule as anaerobic"],"ans":0,"expl":"Aerobic: O2 required → 36–38 ATP per glucose → sustained. Anaerobic (glycolysis): no O2 → 2 ATP per glucose → fast but brief → lactic acid accumulates → fatigue.","dok":3,"std":"std8"},{"q":"Creatine supplementation works by:","opts":["Increasing phosphocreatine stores in muscle to rapidly regenerate ATP during short maximal efforts","Mimicking the effects of anabolic steroids on muscle protein synthesis","Reducing lactic acid production during aerobic exercise","Increasing red blood cell production similar to EPO"],"ans":0,"expl":"Creatine → phosphocreatine (PCr) stores. PCr donates phosphate to ADP → ATP regeneration (ATP-PCr system). Benefits: 3-15 sec maximal efforts (sprinting, lifting). One of few legal, evidence-based performance supplements.","dok":1,"std":"std9"},{"q":"Ballistic stretching differs from dynamic stretching in that ballistic:","opts":["Uses BOUNCING or jerking motions at end range — higher injury risk due to uncontrolled ballistic forces","Is controlled, sport-specific movement through range of motion at functional speed","Involves a partner applying progressive force to increase range","Is a static stretch maintained for 30+ seconds without movement"],"ans":0,"expl":"Ballistic = uncontrolled bouncing (activates muscle SPINDLES = stretch reflex → tighter muscle). Dynamic = controlled movement through range (preferred pre-exercise). PNF = contract-relax.","dok":3,"std":"std9"},{"q":"An acromioclavicular (AC) joint separation is graded based on:","opts":["The degree of tearing of the AC and coracoclavicular ligaments","The amount of glenohumeral capsule damage","The number of rotator cuff tendons involved","The presence or absence of a glenoid labrum tear"],"ans":0,"expl":"AC separation grades I-VI based on ligament integrity: Grade I = AC ligament sprain only. Grade III = CC ligament torn + clavicle elevated. Grade VI = rare, severe.","dok":1,"std":"std10"},{"q":"A glenohumeral dislocation most commonly occurs in which direction?","opts":["Anterior — the humeral head slides forward out of the glenoid","Posterior — the humeral head slides backward","Superior — under the acromion","Inferior — downward due to gravity and capsule laxity"],"ans":0,"expl":"95% of shoulder dislocations are ANTERIOR. Mechanism: arm abducted + externally rotated (e.g., tackling, falling on outstretched arm).","dok":3,"std":"std10"},{"q":"A contusion is BEST defined as:","opts":["A bruise from direct blow causing bleeding into underlying tissue without breaking the skin","A cut caused by a sharp object laceration","A partial tear of a ligament from joint stress","A complete rupture of a muscle or tendon"],"ans":0,"expl":"Contusion = bruise. Distinguish from: Laceration (cut through skin), Abrasion (skin scraped/abraded), Avulsion (skin/tissue torn away), Sprain (ligament), Strain (muscle/tendon).","dok":1,"std":"std11"},{"q":"Heat STROKE differs from heat EXHAUSTION in that heat stroke:","opts":["Features hot, DRY skin and altered mental status — it is a LIFE-THREATENING emergency","Features heavy sweating with normal core temperature","Is less serious and managed with rest and fluids only","Occurs only in humid environments"],"ans":0,"expl":"Heat stroke = thermoregulatory failure → CNS dysfunction. Hot DRY skin (sweating mechanism fails), core temp >104°F. CALL 911. Cold water immersion is treatment.","dok":3,"std":"std11"},{"q":"The Gate Control Theory of pain management proposes that:","opts":["Non-painful nerve input (like rubbing) can 'close the gate' on pain signals at the spinal cord level","Pain signals can only be blocked by pharmaceutical analgesics","All pain signals travel directly to the brain without modulation","Greater injury always equals proportionally greater perceived pain"],"ans":0,"expl":"Gate Control Theory (Melzack & Wall, 1965): Large-diameter fibers (touch/vibration) can inhibit transmission of small-diameter pain fibers at the dorsal horn 'gate.' Explains why rubbing an injury helps.","dok":1,"std":"std12"},{"q":"Phase I of rehabilitation primarily focuses on:","opts":["Controlling pain and swelling, maintaining cardiovascular fitness, and beginning range of motion","Return-to-sport with full functional and sport-specific activities","Maximum strength training and power development","Plyometric training and agility progressions"],"ans":0,"expl":"Phase I: PRICE, pain/swelling control, early ROM, maintain CV fitness. Phase II: Full ROM, strength/power. Phase III: Sport-specific, proprioception, return-to-sport.","dok":1,"std":"std12"}];
+const STD_META={"std1":{"pct":6,"color":"#6366f1","code":"FUND","name":"Fundamentals","icon":"📋"},"std2":{"pct":4,"color":"#8b5cf6","code":"PSYC","name":"Sports Psychology","icon":"🧠"},"std3":{"pct":12,"color":"#ef4444","code":"HEAL","name":"Injury & Healing","icon":"🩹"},"std4":{"pct":8,"color":"#f97316","code":"HEAD","name":"Head & Neck","icon":"⛑️"},"std5":{"pct":4,"color":"#eab308","code":"NUTR","name":"Sports Nutrition","icon":"🍎"},"std6":{"pct":4,"color":"#22c55e","code":"BODY","name":"Body Composition","icon":"⚖️"},"std7":{"pct":19,"color":"#06b6d4","code":"LOEX","name":"Lower Extremity","icon":"🦵"},"std8":{"pct":8,"color":"#3b82f6","code":"PERF","name":"Performance","icon":"⚡"},"std9":{"pct":8,"color":"#a855f7","code":"STRN","name":"Strength & Ergogenic","icon":"💪"},"std10":{"pct":9,"color":"#ec4899","code":"UPEX","name":"Upper Extremity","icon":"🏋️"},"std11":{"pct":9,"color":"#10b981","code":"INJR","name":"First Aid","icon":"🚑"},"std12":{"pct":9,"color":"#0ea5e9","code":"REHB","name":"Rehabilitation","icon":"🏥"}};
+const FLASH_DATA={"std1":{"title":"Fundamentals","color":"#6366f1","code":"FUND","icon":"📋","cards":[{"term":"Negligence","def":"Negligence requires 4 elements: Duty of care, Breach of duty, Damage/injury occurred, Proximate cause"},{"term":"HIPAA","def":"HIPAA protects athlete Protected Health Information (PHI) — cannot share without consent"},{"term":"PPE","def":"Preparticipation Physical Examination (PPE) identifies conditions that may disqualify or predispose to injury"},{"term":"Assumption of Risk","def":"Assumption of Risk: athletes accept inherent dangers of sport — does NOT cover staff negligence"},{"term":"Informed Consent","def":"Informed consent: patient understands risks, benefits, alternatives BEFORE agreeing to treatment"},{"term":"Good Samaritan","def":"Good Samaritan Law: protects good-faith emergency responders from liability"},{"term":"Title IX","def":"Title IX (1972): prohibits sex discrimination in federally funded educational programs"},{"term":"Scope of Practice","def":"Scope of practice: what an AT is legally permitted to do — defined by state practice acts"},{"term":"EAP","def":"Emergency Action Plan (EAP): contacts, AED location, 911 protocol, roles, evacuation routes"},{"term":"Malpractice","def":"Know all 4 elements of negligence and be able to distinguish between the different legal terms. The AT's scope of practice is a frequent tes"},{"term":"Liability","def":"Good Samaritan Law: protects good-faith emergency responders from liability"},{"term":"Standard of Care","def":"Standard of care: level of care a reasonable professional would provide in same circumstances"},{"term":"Battery","def":"Know all 4 elements of negligence and be able to distinguish between the different legal terms. The AT's scope of practice is a frequent tes"},{"term":"Omission","def":"Know all 4 elements of negligence and be able to distinguish between the different legal terms. The AT's scope of practice is a frequent tes"},{"term":"Commission","def":"Know all 4 elements of negligence and be able to distinguish between the different legal terms. The AT's scope of practice is a frequent tes"}]},"std2":{"title":"Sports Psychology","color":"#8b5cf6","code":"PSYC","icon":"🧠","cards":[{"term":"DABDA","def":"5 psychological phases after injury (DABDA): Denial → Anger → Bargaining → Depression → Acceptance"},{"term":"SMART Goals","def":"SMART goals: Specific, Measurable, Achievable, Relevant, Time-bound"},{"term":"Intrinsic Motivation","def":"Intrinsic motivation: internal drive (fun, mastery) vs Extrinsic: external rewards (trophies, praise)"},{"term":"Extrinsic Motivation","def":"DABDA phases appear frequently — know the correct ORDER. Distinguish burnout (chronic, serious) from staleness (temporary, fixable with rest"},{"term":"Burnout","def":"Burnout vs Staleness: Burnout = chronic exhaustion + withdrawal; Staleness = temporary performance plateau"},{"term":"Staleness","def":"Burnout vs Staleness: Burnout = chronic exhaustion + withdrawal; Staleness = temporary performance plateau"},{"term":"PMR","def":"Progressive Muscle Relaxation (PMR): tense then release muscle groups to reduce anxiety"},{"term":"Visual Imagery","def":"Visual imagery: mentally rehearsing skills to strengthen neural pathways — used in rehab AND performance"},{"term":"Overtraining","def":"Overtraining interventions: time off, athlete autonomy, variety, reduced demands"},{"term":"Process Goals","def":"DABDA phases appear frequently — know the correct ORDER. Distinguish burnout (chronic, serious) from staleness (temporary, fixable with rest"},{"term":"Outcome Goals","def":"DABDA phases appear frequently — know the correct ORDER. Distinguish burnout (chronic, serious) from staleness (temporary, fixable with rest"}]},"std3":{"title":"Injury & Healing Process","color":"#ef4444","code":"HEAL","icon":"🩹","cards":[{"term":"SHARP","def":"5 cardinal signs of inflammation (SHARP): Swelling, Heat, Altered function, Redness, Pain"},{"term":"Vasodilation","def":"Vasodilation in acute phase: increases blood flow, delivers WBCs, oxygen, and nutrients to injury"},{"term":"Hypoxia","def":"Hypoxia causes secondary cell death — why RICE is critical in first 72 hours"},{"term":"Fibroblast","def":"Subacute phase: fibroblasts produce collagen → scar tissue formation"},{"term":"Collagen","def":"Subacute phase: fibroblasts produce collagen → scar tissue formation"},{"term":"Wolff's Law","def":"This is 12% of the exam — know it deeply. Healing phase TIMELINES are tested heavily. Wolff's Law, HIPS components, and fracture types are g"},{"term":"HIPS","def":"HIPS assessment: History → Inspection → Palpation → Special Tests"},{"term":"Ecchymosis","def":"This is 12% of the exam — know it deeply. Healing phase TIMELINES are tested heavily. Wolff's Law, HIPS components, and fracture types are g"},{"term":"Effusion","def":"This is 12% of the exam — know it deeply. Healing phase TIMELINES are tested heavily. Wolff's Law, HIPS components, and fracture types are g"},{"term":"Crepitus","def":"This is 12% of the exam — know it deeply. Healing phase TIMELINES are tested heavily. Wolff's Law, HIPS components, and fracture types are g"},{"term":"Edema","def":"This is 12% of the exam — know it deeply. Healing phase TIMELINES are tested heavily. Wolff's Law, HIPS components, and fracture types are g"},{"term":"Joint Laxity","def":"This is 12% of the exam — know it deeply. Healing phase TIMELINES are tested heavily. Wolff's Law, HIPS components, and fracture types are g"},{"term":"Greenstick Fracture","def":"This is 12% of the exam — know it deeply. Healing phase TIMELINES are tested heavily. Wolff's Law, HIPS components, and fracture types are g"},{"term":"Comminuted Fracture","def":"This is 12% of the exam — know it deeply. Healing phase TIMELINES are tested heavily. Wolff's Law, HIPS components, and fracture types are g"},{"term":"SOAP Note","def":"SOAP Note: Subjective → Objective → Assessment → Plan"}]},"std4":{"title":"Head & Neck Injuries","color":"#f97316","code":"HEAD","icon":"⛑️","cards":[{"term":"Concussion","def":"Concussion = functional brain injury (NOT structural) — LOC occurs in <10% of cases"},{"term":"Subdural Hematoma","def":"Subdural hematoma: bleeding BELOW the dura mater (venous, slower)"},{"term":"Epidural Hematoma","def":"Epidural hematoma: bleeding ABOVE the dura mater (arterial, rapid) — 'talk and die' = EMERGENCY"},{"term":"Brachial Plexus","def":"Brachial plexus originates from C5–T1 (cervical 5 through thoracic 1)"},{"term":"Burner/Stinger","def":"Burner/Stinger: brachial plexus stretched when neck flexes away while shoulder depressed"},{"term":"NOCSAE","def":"NOCSAE: helmets must never be modified — voids certification and creates legal liability"},{"term":"SCM","def":"SCM muscle: ipsilateral lateral flexion + contralateral rotation of head"},{"term":"Amnesia","def":"Know subdural vs epidural — which is arterial (epidural, fast, emergency) vs venous (subdural, slower). Brachial plexus C5-T1 appears often."},{"term":"Foramen Magnum","def":"Occipital bone contains the foramen magnum — where brainstem becomes spinal cord"},{"term":"Referred Pain","def":"Referred pain: perceived at location distant from actual injury site"},{"term":"Innervate","def":"Know subdural vs epidural — which is arterial (epidural, fast, emergency) vs venous (subdural, slower). Brachial plexus C5-T1 appears often."},{"term":"Point Tenderness","def":"Know subdural vs epidural — which is arterial (epidural, fast, emergency) vs venous (subdural, slower). Brachial plexus C5-T1 appears often."}]},"std5":{"title":"Sports Nutrition","color":"#eab308","code":"NUTR","icon":"🍎","cards":[{"term":"Glycogen","def":"Carbohydrates = primary fuel for high-intensity exercise; stored as glycogen in muscle and liver"},{"term":"Hyponatremia","def":"Hyponatremia: low blood sodium from OVERDRINKING plain water — not dehydration"},{"term":"Carbohydrate Loading","def":"Carbohydrate loading: beneficial only for endurance events >90 minutes"},{"term":"Electrolytes","def":"Sports drinks (6–8% CHO + electrolytes): replace fluid, electrolytes, carbs in events >60 min"},{"term":"Dehydration","def":"Hyponatremia: low blood sodium from OVERDRINKING plain water — not dehydration"},{"term":"kcal","def":"Macronutrient calories: Carbohydrates = 4 kcal/g, Proteins = 4 kcal/g, Fats = 9 kcal/g"},{"term":"Macronutrient","def":"Macronutrient calories: Carbohydrates = 4 kcal/g, Proteins = 4 kcal/g, Fats = 9 kcal/g"},{"term":"Pre-event Meal","def":"Pre-event meal: 3–4 hours before — high carb, low fat/fiber, moderate protein"},{"term":"Post-exercise Window","def":"Post-exercise window: within 30–60 minutes — 3:1 to 4:1 CHO:protein ratio"},{"term":"Sports Drink","def":"Sports drinks (6–8% CHO + electrolytes): replace fluid, electrolytes, carbs in events >60 min"}]},"std6":{"title":"Body Composition & Diseases","color":"#22c55e","code":"BODY","icon":"⚖️","cards":[{"term":"Hydrostatic Weighing","def":"Know what each body composition METHOD uses (water, electricity, air, X-ray). Female Athlete Triad = 3 interconnected conditions. DEXA is th"},{"term":"BIA","def":"Body composition methods: Hydrostatic (water displacement), BIA (electrical current), Skinfold calipers, Bod Pod (air displacement), DEXA (gold standard)"},{"term":"DEXA","def":"Body composition methods: Hydrostatic (water displacement), BIA (electrical current), Skinfold calipers, Bod Pod (air displacement), DEXA (gold standard)"},{"term":"Bod Pod","def":"Body composition methods: Hydrostatic (water displacement), BIA (electrical current), Skinfold calipers, Bod Pod (air displacement), DEXA (gold standard)"},{"term":"Skinfold Calipers","def":"Body composition methods: Hydrostatic (water displacement), BIA (electrical current), Skinfold calipers, Bod Pod (air displacement), DEXA (gold standard)"},{"term":"Female Athlete Triad","def":"Female Athlete Triad: Low energy availability + Menstrual dysfunction + Low bone mineral density"},{"term":"Anorexia Nervosa","def":"Anorexia Nervosa: restriction, fear of weight gain, distorted body image — highest psychiatric mortality"},{"term":"Bulimia Nervosa","def":"Bulimia Nervosa: binge → purge cycles; body weight often appears normal"},{"term":"Muscle Dysmorphia","def":"Muscle Dysmorphia: obsessive belief body is too small/not muscular enough"},{"term":"Body Composition","def":"Body composition methods: Hydrostatic (water displacement), BIA (electrical current), Skinfold calipers, Bod Pod (air displacement), DEXA (gold standard)"},{"term":"BMI","def":"BMI = least accurate body composition method (doesn't distinguish muscle from fat)"}]},"std7":{"title":"Lower Extremity Injuries","color":"#06b6d4","code":"LOEX","icon":"🦵","cards":[{"term":"ACL","def":"ACL: prevents ANTERIOR translation of tibia on femur — most common serious knee injury"},{"term":"MCL","def":"MCL tested with VALGUS stress (force toward midline); LCL tested with VARUS stress"},{"term":"LCL","def":"MCL tested with VALGUS stress (force toward midline); LCL tested with VARUS stress"},{"term":"PCL","def":"This is 19% of the exam — the LARGEST standard. ACL function, ATF as first ligament injured, valgus/varus stress tests, and taping terminolo"},{"term":"ATF","def":"Inversion ankle sprain: most commonly injures ATF (Anterior Talofibular) ligament FIRST"},{"term":"Deltoid Ligament","def":"This is 19% of the exam — the LARGEST standard. ACL function, ATF as first ligament injured, valgus/varus stress tests, and taping terminolo"},{"term":"Meniscus","def":"Medial meniscus torn more often — attached to MCL, less mobile"},{"term":"Valgus","def":"MCL tested with VALGUS stress (force toward midline); LCL tested with VARUS stress"},{"term":"Varus","def":"MCL tested with VALGUS stress (force toward midline); LCL tested with VARUS stress"},{"term":"Dorsiflexion","def":"Dorsiflexion = foot toward shin; Plantarflexion = pointing toes down"},{"term":"Plantarflexion","def":"Dorsiflexion = foot toward shin; Plantarflexion = pointing toes down"},{"term":"Eversion","def":"Eversion = sole outward; Inversion = sole inward"},{"term":"Inversion","def":"Inversion ankle sprain: most commonly injures ATF (Anterior Talofibular) ligament FIRST"},{"term":"Stirrup","def":"Prophylactic taping: Stirrups run under heel from anchor to anchor — primary structural component"},{"term":"Pre-wrap","def":"Pre-wrap: protects skin only — does NOT provide support"},{"term":"Q-angle","def":"Q-angle: larger angle (common in females) increases lateral patellar tracking forces"},{"term":"Turf Toe","def":"Turf toe: hyperextension sprain of 1st metatarsophalangeal (MTP) joint"},{"term":"MTSS","def":"This is 19% of the exam — the LARGEST standard. ACL function, ATF as first ligament injured, valgus/varus stress tests, and taping terminolo"},{"term":"Plantar Fasciitis","def":"Plantar fasciitis: heel pain WORST with first morning steps"}]},"std8":{"title":"Performance Enhancement","color":"#3b82f6","code":"PERF","icon":"⚡","cards":[{"term":"VO2max","def":"VO2max = maximum oxygen consumption during maximal exercise — gold standard of aerobic fitness"},{"term":"Cardiac Output","def":"Cardiac output (CO) = Heart Rate (HR) × Stroke Volume (SV)"},{"term":"Stroke Volume","def":"Cardiac output (CO) = Heart Rate (HR) × Stroke Volume (SV)"},{"term":"Periodization","def":"Periodization: Macrocycle (year) → Mesocycles (months) → Microcycles (weeks)"},{"term":"Fartlek","def":"Fartlek training: unstructured spontaneous speed/intensity variation within continuous run"},{"term":"Borg Scale","def":"CO = HR × SV is a guaranteed formula question. Know the difference between aerobic (sustainable, O2, 36-38 ATP) and anaerobic (brief, no O2,"},{"term":"Target Heart Rate","def":"Target Heart Rate: 60–85% of HRmax (HRmax = 220 − age)"},{"term":"Aerobic","def":"VO2max = maximum oxygen consumption during maximal exercise — gold standard of aerobic fitness"},{"term":"Anaerobic","def":"Aerobic: uses oxygen, 36–38 ATP/glucose, sustainable; Anaerobic: no oxygen, 2 ATP, brief, lactic acid"},{"term":"Overload","def":"Conditioning principles: Adaptation, Overload, Specificity, Reversibility, Periodization"},{"term":"Reversibility","def":"Conditioning principles: Adaptation, Overload, Specificity, Reversibility, Periodization"},{"term":"Specificity","def":"SPECIFICITY principle: body adapts specifically to the TYPE of stress placed on it (SAID)"},{"term":"Tidal Volume","def":"CO = HR × SV is a guaranteed formula question. Know the difference between aerobic (sustainable, O2, 36-38 ATP) and anaerobic (brief, no O2,"},{"term":"Vital Capacity","def":"CO = HR × SV is a guaranteed formula question. Know the difference between aerobic (sustainable, O2, 36-38 ATP) and anaerobic (brief, no O2,"}]},"std9":{"title":"Strength, Flexibility & Ergogenic Aids","color":"#a855f7","code":"STRN","icon":"💪","cards":[{"term":"Sarcomere","def":"Sliding filament theory: myosin heads pull actin toward center → sarcomere shortens → muscle contracts"},{"term":"Actin","def":"Sliding filament theory: myosin heads pull actin toward center → sarcomere shortens → muscle contracts"},{"term":"Myosin","def":"Sliding filament theory: myosin heads pull actin toward center → sarcomere shortens → muscle contracts"},{"term":"Sliding Filament","def":"Sliding filament theory: myosin heads pull actin toward center → sarcomere shortens → muscle contracts"},{"term":"Eccentric","def":"Eccentric contraction: muscle LENGTHENS under load (most force, most DOMS)"},{"term":"Concentric","def":"Concentric contraction: muscle shortens while producing force"},{"term":"Isometric","def":"Sliding filament = actin slides over myosin (filaments don't shorten). PNF = contract THEN stretch. Distinguish static (after), dynamic (bef"},{"term":"Isokinetic","def":"Sliding filament = actin slides over myosin (filaments don't shorten). PNF = contract THEN stretch. Distinguish static (after), dynamic (bef"},{"term":"Type I Fiber","def":"Type I fibers (slow-twitch): oxidative, fatigue-resistant — endurance activities"},{"term":"Type II Fiber","def":"Type II fibers (fast-twitch): glycolytic, fatigue quickly — power/sprint activities"},{"term":"PNF","def":"PNF stretching: contract muscle BEFORE stretching → autogenic inhibition → greater ROM"},{"term":"Plyometrics","def":"Plyometrics: stretch-shortening cycle — eccentric pre-load → immediate concentric release = power"},{"term":"Creatine","def":"Creatine: increases phosphocreatine stores → rapid ATP regeneration for 3–15 sec maximal efforts"},{"term":"EPO","def":"EPO/Blood doping: artificially increases RBCs → more O2 delivery; risk of thrombosis, stroke, death"},{"term":"Anabolic Steroids","def":"Anabolic steroids dangers: liver damage, LVH, hormonal disruption, premature growth plate closure"},{"term":"DOMS","def":"Eccentric contraction: muscle LENGTHENS under load (most force, most DOMS)"}]},"std10":{"title":"Upper Extremity Injuries","color":"#ec4899","code":"UPEX","icon":"🏋️","cards":[{"term":"SITS","def":"SITS rotator cuff: Supraspinatus (abduction), Infraspinatus (ext. rotation), Teres minor (ext. rotation), Subscapularis (int. rotation)"},{"term":"Supraspinatus","def":"SITS rotator cuff: Supraspinatus (abduction), Infraspinatus (ext. rotation), Teres minor (ext. rotation), Subscapularis (int. rotation)"},{"term":"Impingement","def":"Shoulder impingement: supraspinatus tendon compressed under acromion during elevation"},{"term":"AC Joint","def":"SITS mnemonic is a guaranteed question. Know lateral (extensor tendons) vs medial (flexor tendons) epicondylitis. Anterior dislocation = 95%"},{"term":"Glenohumeral","def":"SITS mnemonic is a guaranteed question. Know lateral (extensor tendons) vs medial (flexor tendons) epicondylitis. Anterior dislocation = 95%"},{"term":"Glenoid Labrum","def":"Glenoid labrum: deepens glenoid fossa by 50% — tears cause instability (Bankart lesion)"},{"term":"Bankart Lesion","def":"Glenoid labrum: deepens glenoid fossa by 50% — tears cause instability (Bankart lesion)"},{"term":"Lateral Epicondylitis","def":"Lateral epicondylitis (tennis elbow): wrist EXTENSOR tendons at lateral epicondyle"},{"term":"Medial Epicondylitis","def":"Medial epicondylitis (Little Leaguer's): wrist FLEXOR/pronator tendons at medial epicondyle"},{"term":"Supination","def":"Supination = palm UP (soup); Pronation = palm DOWN"},{"term":"Pronation","def":"Supination = palm UP (soup); Pronation = palm DOWN"},{"term":"Abduction","def":"SITS rotator cuff: Supraspinatus (abduction), Infraspinatus (ext. rotation), Teres minor (ext. rotation), Subscapularis (int. rotation)"},{"term":"Adduction","def":"Abduction = arm AWAY from midline; Adduction = toward midline"},{"term":"FOOSH","def":"Clavicle fractures at middle third (80%) — weakest point; FOOSH mechanism"}]},"std11":{"title":"Common Injuries & First Aid","color":"#10b981","code":"INJR","icon":"🚑","cards":[{"term":"RICE","def":"RICE method: Rest, Ice, Compression, Elevation — applied immediately post-injury"},{"term":"Heat Stroke","def":"Heat stroke: hot DRY skin + altered mental status = LIFE-THREATENING — call 911, cold water immersion"},{"term":"Heat Exhaustion","def":"Heat exhaustion: heavy sweating, normal/elevated temp, weakness — rest, fluids, cooling"},{"term":"Shock","def":"Shock signs: pale, cool, clammy skin; rapid weak pulse; confusion; low blood pressure"},{"term":"Anaphylaxis","def":"Anaphylaxis: epinephrine (EpiPen) FIRST → call 911 → transport; antihistamines are adjunct only"},{"term":"MRSA","def":"MRSA: methicillin-resistant staph — spreads by contact; looks like spider bite; do NOT drain in field"},{"term":"Sprain","def":"Sprain = LIGAMENT injury; Strain = MUSCLE or TENDON injury"},{"term":"Strain","def":"Sprain = LIGAMENT injury; Strain = MUSCLE or TENDON injury"},{"term":"Contusion","def":"Contusion = bruise (no skin break); Laceration = cut; Abrasion = skin scraped; Avulsion = torn away"},{"term":"Laceration","def":"Contusion = bruise (no skin break); Laceration = cut; Abrasion = skin scraped; Avulsion = torn away"},{"term":"Avulsion","def":"Contusion = bruise (no skin break); Laceration = cut; Abrasion = skin scraped; Avulsion = torn away"},{"term":"Tourniquet","def":"External bleeding: direct pressure FIRST → pressure dressing → tourniquet (last resort)"},{"term":"Cyanosis","def":"Sprain vs Strain is guaranteed every year. Heat STROKE = hot DRY skin (sweating stops). Fracture rule = joint ABOVE and BELOW. Direct pressu"},{"term":"Subluxation","def":"Sprain vs Strain is guaranteed every year. Heat STROKE = hot DRY skin (sweating stops). Fracture rule = joint ABOVE and BELOW. Direct pressu"},{"term":"Dislocation","def":"Sprain vs Strain is guaranteed every year. Heat STROKE = hot DRY skin (sweating stops). Fracture rule = joint ABOVE and BELOW. Direct pressu"}]},"std12":{"title":"Rehabilitation & Modalities","color":"#0ea5e9","code":"REHB","icon":"🏥","cards":[{"term":"Gate Control Theory","def":"Gate Control Theory: non-painful input (rubbing) can close the 'gate' on pain signals at spinal cord"},{"term":"Phase I/II/III","def":"Gate Control Theory appears on almost every EOPA. Know all 3 rehab PHASES and what each focuses on. Cryotherapy = 20–30 min MAX. SAID = spec"},{"term":"SAID Principle","def":"SAID principle: Specific Adaptation to Imposed Demands — rehab must mirror sport demands"},{"term":"Cryotherapy","def":"Cryotherapy: vasoconstriction → reduced blood flow/swelling; 20–30 minutes per session"},{"term":"Thermotherapy","def":"Thermotherapy: vasodilation → increased blood flow — CONTRAINDICATED in acute phase (0–72 hrs)"},{"term":"Ultrasound","def":"Ultrasound: thermal (deep heating) + non-thermal (cavitation) effects on tissue"},{"term":"IASTM","def":"Manual therapy: massage, cupping, IASTM/scraping (Graston technique)"},{"term":"Proprioception","def":"Phase II: restore full ROM, strength/power/endurance, begin proprioception"},{"term":"Modality","def":"Gate Control Theory appears on almost every EOPA. Know all 3 rehab PHASES and what each focuses on. Cryotherapy = 20–30 min MAX. SAID = spec"},{"term":"Analgesic","def":"Gate Control Theory appears on almost every EOPA. Know all 3 rehab PHASES and what each focuses on. Cryotherapy = 20–30 min MAX. SAID = spec"},{"term":"Contraindicate","def":"Thermotherapy: vasodilation → increased blood flow — CONTRAINDICATED in acute phase (0–72 hrs)"},{"term":"Vasoconstrictor","def":"Gate Control Theory appears on almost every EOPA. Know all 3 rehab PHASES and what each focuses on. Cryotherapy = 20–30 min MAX. SAID = spec"},{"term":"Vasodilator","def":"Gate Control Theory appears on almost every EOPA. Know all 3 rehab PHASES and what each focuses on. Cryotherapy = 20–30 min MAX. SAID = spec"},{"term":"Overload","def":"Overload principle: progressively increase demands to drive adaptation"}]}};
+const STD_ORDER=["std1","std2","std3","std4","std5","std6","std7","std8","std9","std10","std11","std12"];
+const LETTERS=['A','B','C','D'];
+const DOK_LABELS={1:'DOK 1 - Recall',2:'DOK 2 - Application',3:'DOK 3 - Analysis'};
+const IMG_PULLUP='data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCACyAIUDASIAAhEBAxEB/8QAHQABAAICAwEBAAAAAAAAAAAAAAcIAgYDBAUBCf/EAE0QAAEDAwICBAoDDAUNAAAAAAEAAgMEBREGBxIhCBMxNxQiQVFhcXWBs7QVMpEjJzNDRVJiZXSChaEWNkKkwRclRFNVZHJzhJKUsbL/xAAaAQEAAwEBAQAAAAAAAAAAAAAAAgMEBQEG/8QAJhEAAgIBBAEEAgMAAAAAAAAAAAECAxEEEjEyUQUTIUEiYXGh4f/aAAwDAQACEQMRAD8AuWiIgCKCdxN9rnpDWFZYKzSlSx0EpET44jUNljJ8R/E0gN4m4PCeYzzWFHqPU2rNWSU+qbRfbFSsgZ4FDiajjlcHkyudh33T8UBkkYJwBkkwun7UHN8Eqo+5PYieUUGwUm7j6mr/AKF3BrrK2bq4HV9waXlzGhjyDJDK7HE0+Uc88l3W2vpCEc7zpseusGf5UalBqcVLyeSW2TRMqKH6ex79PyajVNhhOeQY/rBj/wAdq5p9N72ywvYNb2aMlpAIpyT/APAUsfsjklPwyj8JFN4VB155iPrBxfZ2rnVf7hbKGTQk9LHQxR3aeKS3uk6sSStrsGLIf9Zz+tHJ+e3xs+Ves/aDWrmDG6FwDsf62v8A8KxZ9Pers/GMF11Tqx95JqRVg1toHeXTFmuV7h1jBcrfbqaWqm/zxcoZiyNpceFplc3OAeXEvI2x19vTfL5DYbO6CWobTuqGtr6hr4SxpYDxvPFIRmRvYc9vmWrZlZTKN36LbIsYuPqm9aGiTA4uHsz5cLJQJBERAEREAREQFWukRTsm3Fur3NGWCAh2Of4FuQpq189p1Pp6HymCpd9nVKHd/wD+v94P6EfwGKRdbVk0W69OyQHqI7NCYeRPE580wfjznxY+zzj0Kn1B407LtEs3o2/a440qYCQZIa2qZJjz9e8/zBB968jc/dfTuhZPAZ2y191LA9tJAQOEHsL3Hk0H3n0LtbaV1PFDU2+q4qO5VVVNVeDykZezIAcwjkRwhpI7RnmAqcb5Vl1od2dTUt5DzOLhLJES7GYHOLoT6hGWD3KMJP2YuPhE9idrUix+g+kNadRakobDXWCroKiumEMMkUnXRgk8ILuTSAXFoyAR43PAU3BU72Est5ttDdNVXIU1PRVNujkoqrhEhZiRxJ5dmOBriAM824IIwrY113pbdaoq2t6yHrQ0Mh4C6RzyPqho5k9ufMASeQJSm5Tck/ojdVtw19kS6gD6PTdbdKfJloL1UXBg8r3MrJHhvv7PUprieJImSN5hzQQobqw+j0RUNu/CyV4kle0vDj4zi/BI5ZGeeMjt5lSfoynqqbSFnp60nwmKhhZNn88MAP8ANZtBPdKz+S/WQ2xh/B5u8HdJrH2DXfLvUDdGdnDu1CBgAWGo+JSqd938nabWAz+Qa75d6gro1d7kfP8AIdTy/fpV1Y9Wc6XKLQIiKsmEREAREQBERAVi3+Gdf3gfoR/AYpp3IsNVcKKkvNrjMtytjXFkQxmaJ3CXsGf7XiNI85bgkAkiFt/f6/3jyeKzn/07FZqP6jfUvboKcFGXDPK5uE9y+irm5G6XVgWyxshdVhrH+GBx4oZXN4mlg8jg0h2TkYOCDkrVtd6joN4aax226WjwTVzapsLLhR/gpKbhc+Rrg8gg8Ic4DDuY7QCtz6T+1bqSqqdfWR7I6WaVjrnTZwescWx9Y30EEAjyEZ55OIRraZ73MlhIa4EDGBg8/Ty8pPuC3aP06mWl2V/EvP7Ofq/Ubq9Xun18fonDUklp2005SWyhuM5p2OiLLM18Z6+MygzFzi0uDXAv55HMkDJwFq113X1RX6tg1JO+Bradjoo6Lh+4tidjibntBPC08ec5A8niqOpKdwY5zpZHvecOkP1hkYyuhXVU7iyEVEIBIaXA/wAz5grtH6PVp6nG38m+TPq/WLdRYpV/ilwWtsUsOvbva4qaNz7bLC2qqmvI8SHtLHgZGXO+5kZwQH4JwpqHIYC1fbHR1u0TpSms9C50zw0OnqHfWmeeZPacDzDPIfatoXEo08aE4x8netvlc05eDVN3u6bWPsKt+XeoL6NQ++40/qKp+JSKdd3e6jWHsKt+A9QX0a+91vsKp+JSLVHqzO+yLPIiKsmEREAREQBERAVi3857g3dv/L+XjVmmfUHqVZN+fG3Fu4PZ9z+XjVnG/VHqVk+EQjyzX9ybC7U+g7zYonNZNVUrhA5w5NlHjMJ9AcGlUQFfmKWmnaYKhuWEO5YcOWD5iCv0RHYqJb/U9LFvfqWGniaynNS2QcOGhz3RsdJ7y8vJK3+mWtTcPJzvVKlKCn4PJimjmpxIHN4SOeT2egrzrnQwtgLYWHjcCTzzgALO2tgxx09C9r84L5COR+0n+S7lQ2OOlkdPJgObh78e7kP/AEF2pcHDivySL46Re+XSdnklc5z30MDnFx5kmNuSfSvUXDQwxU9DBTwtDYoo2sY0dgaBgBcy+SPsDVd3e6jWHsKt+A9QX0a+93l/sOp+JSKc93u6jWHsKt+XeoM6NXe9/A6n4lIrI9WQl2RZ5ERVkwiIgCIiAIiICsO+XPcm88s4fH8tGrON+qFWPe0/fLvWD+NiH92iVnG/VCsnwiEeWZBUS3VmpqncrVAcRKGXapbiUhsmRIQcc+QHk9GFexxw0nzBfmrqapF51he7rWQtdUVFxqJXcbQXN4pHHHuzjC0aK325t4yZddV7sFHOD3qalZxcbZKhn6PID7QOa5qwwPZiYwmMczxvwPetNio6F7Gk0lO4kc8xg81m6io43MkipIGFrsnhjA5LpvW/W3+/8OWtD89v6/0/Rjbiolq9vdOVU1W6slmtVLI+ocMGUmJpLz6+33r3lFHRUv0962lpaeoIc+1TvoWuHljaGuYPc17W/uqV1wZLDwfQReVk1Td7un1h7BrfgPUG9Grvc/gdT8SkU5bv902sfYNd8u9Qb0au9v0/QdT8SkU49WRl2RZ1ERVkwiIgCIiAIiICrm9JP+U6+/tEXl/3aFWhb9UKrm9Peffef+kw/LQK0bewKyfCIR5Zl5F+bW6Eb6LdfV1M2Mxtbe6zga1uBw9e/GAOwYwv0lCof0gNK3Zm+d9ZR2a4SsqqjwiAspnuEoe1pc5pxzaHOIJ7AfMvapKLbbwRti5JJIimOqqIJg17C6N5w0nkc4z/AIL04HtlAeGyDI7HE4UhWDZDV+o52UdQymtbnxvlpxLIHOkkY0uDMNOMHGCc8s9hUfSslttdLa7iw0tZBJ1ckEviyNd2YI86vrthYsxeTPZVOHZYLUdCK7Mdp+/2AtIfBUsq2uP9oPbwEe7qgf3grFKpvQ6pb5R7iV4fbqllBLbS6aSSMsa0l7eAgntzwuHL/BWyWazG74NNedqyapu/3T6xH6hrvl3qDejV3tjl+Qqn4lIpy3g7p9Y+wq75d6g3o1H77g9h1PxKRex6s9l2RZ1ERVkwiIgCIiAIiICrW9Azuffv2qH5aBWjb2BVc3oP3z77+2QfL06tG3sCsnwiEeWZLR93rZNU2yhudNRuqJLfOXy9WzikEJYeLhA5u5hhIHPl2HC3hfCqLIKyLi/suhNwkpL6IitE9qukjagcLZ2Atp3skwYmnkerc3BBPlI5/YF0tTziTVVjkuUUVTXtE1OZuqDTUQkhzHE/nN8cEDyu4vFDgFvOrNBUd1llr7VUG13J3Mva3ihld53s8/6TSD5ycYUPbhapg0heqW1annhgvVKRVUb2xvqAYzlpOWDIY7Dm+MAcjODgLjy019KcF+UWdON9NjU38NEraFjbTa4ubeBscU1sphAAAOIsln6zHq6yLP8AxBb6qm693W1Dbq+11FrpYrRXRMbVsjme2R8kcoLWte0t8UFnE/h5O+oSGqetj9Z1Wu9v6a+V8EUNYJpIJxECGFzD2gEkjII5Z7crqaWucKI71g52osjO17Xk7u7/AHT6w9hV3y71B3Rr72/4HU/EpFOO7/LajWB/UVd8u9Qb0ajndwewqn4lItcerM8uyLOoiKsmEREAREQBERAVZ3oP30r4PPWwD+706tI3sCq1vR3qXv8Abaf5enVpgOSsnwiEeWfQhRfHFVkz6FVTpN2Bld0g9MBsvG2vpYvCmOHKOGKR5e/1BnEcfoq1TVTfpF32WDdTUtTJKRXOgZaaJo5OpqXq2uleeXJ0hkexvl4XvPLLMzr5IT4Iw1JfPpm/3K7yNfG6urHzhjjlzGPeXBmfQ3iHowru9H6201s2c0y2maB4XQsrZCPK+Yda77C7HqAVRa3Z/X0GnKDUMlirnMqHFsFFDTmSaHkfHlaBxNyA0DzZdnHLNwNjLXeLNtTYbZfYTBXQQEPiJ5saXuLGnzENLRjydinY00sEK00/k7W8HdNrH2FXfLvUGdGrvdHsKp+JSKc94e6XWPsKt+XeoL6NORvBjyfQVT8WkUY9WTfZFn0RFWTCIiAIiIAiIgNQ1FtrpDUGoBfLpbpZaziY5/DVSsZIWY4S5jXBp7AOzmAAcgLb0RAFjzJWSIDBz2Rty9waPSV5lYywz1cdZU0dJPUxfg5n04c9nqcRkL1JI2SDD2NcPSF1zb6U/iyPUUBw/SlH+c7/ALVyR3GkeQ0S4J84IT6MpfzXfasm0FK0g9XnHnKA6+obXS6g07crLUyPFNcaSWklfE4BwZIwscWk5GcE45LR9stpqbRepZL8691FxqDTSUsbXQtja2N7o3EnGcu+5N58h28lJLGtYMNaGjzAL6vcnmAiIvD0IiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgP/2Q==';
+const IMG_PUSHUP='data:image/png;base64,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';
+const IMG_CURL  ='data:image/png;base64,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';
+const IMG_LEGEXT='data:image/png;base64,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';
+
+
+function loadStudent(){try{const s=localStorage.getItem('sm_student');if(s)STUDENT=JSON.parse(s);}catch(e){}}
+function saveStudent(){try{localStorage.setItem('sm_student',JSON.stringify(STUDENT));}catch(e){}}
+
+loadStudent();
+
+function submitLogin(){
+  const f=document.getElementById('input-first').value.trim();
+  const l=document.getElementById('input-last').value.trim();
+  const err=document.getElementById('login-error');
+  if(!f||!l){err.style.display='block';return;}
+  err.style.display='none';
+  STUDENT={first:f,last:l};
+  saveStudent();
+  document.getElementById('login-modal').classList.add('hidden');
+  if(_pendingFn){_pendingFn();_pendingFn=null;}
+}
+
+let _pendingFn=null;
+function requireLogin(fn){
+  if(STUDENT.first&&STUDENT.last){fn();return;}
+  _pendingFn=fn;
+  document.getElementById('login-modal').classList.remove('hidden');
+  setTimeout(()=>document.getElementById('input-first').focus(),200);
+}
+
+// Enter key on login - runs after DOM ready
+document.addEventListener('DOMContentLoaded', function() {
+  ['input-first','input-last'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.addEventListener('keydown',e=>{if(e.key==='Enter')submitLogin();});
+  });
+});
+
+// ── PAGE NAVIGATION ───────────────────────────────────────────
+function showPage(name){
+  ['home','flashcards','test','results'].forEach(p=>{
+    document.getElementById('page-'+p).classList.toggle('hidden',p!==name);
+  });
+  ['nav-home','nav-flash','nav-diag','nav-prac'].forEach(id=>{
+    document.getElementById(id)?.classList.remove('active');
+  });
+  const map={home:'nav-home',flashcards:'nav-flash',test:'nav-test',results:'nav-res'};
+  if(map[name]){const el=document.getElementById(map[name]);if(el)el.classList.add('active');}
+  window.scrollTo(0,0);
+}
+
+// ── FLASHCARDS ────────────────────────────────────────────────
+function buildFlashcards(){
+  const grid=document.getElementById('flash-grid');
+  const filters=document.getElementById('flash-filters');
+  if(!grid||!filters)return;
+
+  // Build filter buttons
+    const allBtn=document.createElement('button');
+  allBtn.className='ff-btn active';
+  allBtn.textContent='All Standards';
+  allBtn.onclick=function(){filterFlash('all',this);};
+  filters.appendChild(allBtn);
+  STD_ORDER.forEach(k=>{
+    const d=FLASH_DATA[k];
+    const btn=document.createElement('button');
+    btn.className='ff-btn';
+    btn.textContent=d.icon+' '+d.code;
+    btn.style.cssText='border-color:'+d.color+'20';
+    btn.onclick=function(){filterFlash(k,this);};
+    filters.appendChild(btn);
+  });
+  const cnt=document.createElement('span');
+  cnt.className='ff-count';cnt.id='ff-count';cnt.textContent='166 cards';
+  filters.appendChild(cnt);
+
+  // Build cards
+  grid.innerHTML='';
+  STD_ORDER.forEach(k=>{
+    const d=FLASH_DATA[k];
+    d.cards.forEach((card,i)=>{
+      grid.innerHTML+=`
+        <div class="flash-card" data-std="${k}" onclick="flipCard(this)">
+          <div class="flash-inner">
+            <div class="flash-front">
+              <div class="flash-std-tag" style="color:${d.color}">${d.icon} ${d.code} — ${d.title}</div>
+              <div class="flash-term">${card.term}</div>
+              <div class="flash-tap">Tap to reveal →</div>
+            </div>
+            <div class="flash-back">
+              <div class="flash-back-label">Definition</div>
+              <div class="flash-def">${card.def}</div>
+            </div>
+          </div>
+        </div>`;
+    });
+  });
+}
+
+function flipCard(card){card.classList.toggle('flipped');}
+
+function filterFlash(std,btn){
+  document.querySelectorAll('.ff-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const cards=document.querySelectorAll('.flash-card');
+  let vis=0;
+  cards.forEach(c=>{
+    const show=std==='all'||c.dataset.std===std;
+    c.style.display=show?'':'none';
+    if(show)vis++;
+    if(show)c.classList.remove('flipped');
+  });
+  const cnt=document.getElementById('ff-count');
+  if(cnt)cnt.textContent=vis+' card'+(vis!==1?'s':'');
+}
+
+
+// ── TEST STATE ────────────────────────────────────────────────
+let MODE='',QUESTIONS=[],QI=0,CORRECT=0,SEL=-1,DONE_Q=false;
+let ELAPSED=0,TIMER_INT=null;
+let CUR_CORRECT=0,CUR_STD='',CUR_EXPL='';
+let RESULTS_DATA={};
+
+function startDiagnostic(){MODE='diagnostic';QUESTIONS=shuffle([...DIAG_24]);beginTest();}
+function startPractice(){MODE='practice';QUESTIONS=shuffle([...PRACTICE_60]);beginTest();}
+
+function beginTest(){
+  QI=0;CORRECT=0;SEL=-1;DONE_Q=false;ELAPSED=0;RESULTS_DATA={};
+  document.getElementById('ttb-mode').textContent=MODE==='diagnostic'?'Diagnostic Test':'Practice Test';
+  document.getElementById('ttb-title').textContent=MODE==='diagnostic'
+    ?'24-Question Diagnostic — All Standards'
+    :'60-Question Practice Test — EOPA 701';
+  startTimer();showPage('test');loadQ();
+}
+
+function startTimer(){
+  stopTimer();ELAPSED=0;
+  TIMER_INT=setInterval(()=>{
+    ELAPSED++;
+    const m=String(Math.floor(ELAPSED/60)).padStart(2,'0');
+    const s=String(ELAPSED%60).padStart(2,'0');
+    const el=document.getElementById('ttb-timer');
+    if(el)el.textContent=m+':'+s;
+  },1000);
+}
+function stopTimer(){if(TIMER_INT){clearInterval(TIMER_INT);TIMER_INT=null;}}
+
+function loadQ(){
+  const total=QUESTIONS.length;
+  if(QI>=total){showResults();return;}
+  const q=QUESTIONS[QI];SEL=-1;DONE_Q=false;
+  const m=STD_META[q.std];
+  const pct=(QI/total)*100;
+  document.getElementById('ttb-q').textContent=`Q${QI+1}/${total}`;
+  document.getElementById('ttb-dok').textContent=DOK_LABELS[q.dok];
+  document.getElementById('ttb-std').textContent=m?m.code+' '+m.name:'—';
+  document.getElementById('prog-lbl').textContent=`Question ${QI+1} of ${total}`;
+  document.getElementById('prog-score').textContent=CORRECT+' correct';
+  document.getElementById('prog-fill').style.width=pct+'%';
+  const origAns=q.opts[q.ans];
+  const shuffled=[...q.opts].sort(()=>Math.random()-.5);
+  CUR_CORRECT=shuffled.indexOf(origAns);
+  CUR_STD=q.std;CUR_EXPL=q.expl||'';
+  const dokClass='dp'+(q.dok);
+  const stdColor=m?m.color:'var(--teal)';
+  const optsHTML=shuffled.map((opt,i)=>`
+    <button class="ans-btn" id="ab${i}" onclick="pick(${i})">
+      <span class="ans-key">${LETTERS[i]}</span>
+      <span class="ans-txt">${opt}</span>
+    </button>`).join('');
+  document.getElementById('q-area').innerHTML=`
+    <span class="dok-pill ${dokClass}">${DOK_LABELS[q.dok]}</span>
+    <span class="std-pill" style="background:${stdColor}">${m?m.code:'—'}</span>
+    <div class="q-card" style="animation:fadeUp .25s ease">
+      <div class="q-num">Question ${QI+1} of ${total}</div>
+      <div class="q-text">${q.q}</div>
+    </div>
+    <div class="ans-list">${optsHTML}</div>
+    <div class="rat-box" id="rat"></div>
+    <div class="ctrl-row">
+      <div class="ctrl-fb" id="cfb">Select an answer to continue.</div>
+      <button class="ctrl-btn primary" id="btn-cfm" onclick="confirmAns()" disabled>Confirm</button>
+      <button class="ctrl-btn" id="btn-nxt" onclick="nextQ()" style="display:none">Next →</button>
+    </div>`;
+  [0,1,2,3].forEach((i)=>{
+    const b=document.getElementById('ab'+i);if(!b)return;
+    b.style.opacity='0';b.style.transform='translateX(-10px)';
+    setTimeout(()=>{b.style.transition='opacity .2s,transform .2s';b.style.opacity='';b.style.transform='';},60+i*55);
+  });
+}
+
+function pick(i){
+  if(DONE_Q)return;
+  [0,1,2,3].forEach(j=>{const b=document.getElementById('ab'+j);if(b)b.classList.remove('asel');});
+  const b=document.getElementById('ab'+i);if(b)b.classList.add('asel');
+  SEL=i;
+  const btn=document.getElementById('btn-cfm');if(btn)btn.disabled=false;
+  const fb=document.getElementById('cfb');if(fb)fb.textContent='Press Confirm to lock in.';
+}
+
+function confirmAns(){
+  if(SEL<0||DONE_Q)return;DONE_Q=true;
+  const ok=SEL===CUR_CORRECT;
+  if(ok)CORRECT++;
+  [0,1,2,3].forEach(i=>{const b=document.getElementById('ab'+i);if(b)b.disabled=true;});
+  const cf=document.getElementById('btn-cfm');if(cf)cf.style.display='none';
+  const sb=document.getElementById('ab'+SEL);if(sb){sb.classList.remove('asel');sb.classList.add(ok?'ac':'aw');}
+  if(!ok){const cb=document.getElementById('ab'+CUR_CORRECT);if(cb)cb.classList.add('ac');}
+  const rat=document.getElementById('rat');
+  if(rat&&CUR_EXPL){rat.textContent=CUR_EXPL;rat.className='rat-box show '+(ok?'rok':'rbad');}
+  const fb=document.getElementById('cfb');
+  if(fb){fb.textContent=ok?'Correct!':'Incorrect — review the rationale.';fb.className='ctrl-fb '+(ok?'cok':'cbad');}
+  const nx=document.getElementById('btn-nxt');if(nx)nx.style.display='';
+  const sf=document.getElementById('sf');
+  if(sf){sf.className='screen-flash '+(ok?'sf-ok':'sf-bad');sf.style.opacity='1';setTimeout(()=>sf.style.opacity='0',300);}
+  if(!RESULTS_DATA[CUR_STD])RESULTS_DATA[CUR_STD]={correct:0,total:0,dok:{1:{c:0,t:0},2:{c:0,t:0},3:{c:0,t:0}}};
+  const q=QUESTIONS[QI];
+  RESULTS_DATA[CUR_STD].total++;
+  RESULTS_DATA[CUR_STD].dok[q.dok].t++;
+  if(ok){RESULTS_DATA[CUR_STD].correct++;RESULTS_DATA[CUR_STD].dok[q.dok].c++;}
+}
+function nextQ(){QI++;loadQ();}
+
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('page-test').classList.contains('hidden')){
+    const tag=e.target.tagName;if(tag==='INPUT'||tag==='TEXTAREA')return;
+    const m={a:0,b:1,c:2,d:3,'1':0,'2':1,'3':2,'4':3};
+    const k=e.key.toLowerCase();
+    if(m[k]!==undefined&&!DONE_Q){pick(m[k]);return;}
+    if((k==='enter'||k===' ')&&!DONE_Q){const b=document.getElementById('btn-cfm');if(b&&!b.disabled)b.click();e.preventDefault();}
+    else if((k==='enter'||k===' ')&&DONE_Q){const b=document.getElementById('btn-nxt');if(b&&b.style.display!=='none')b.click();e.preventDefault();}
+  }
+  if(!document.getElementById('login-modal').classList.contains('hidden')){
+    if(e.key==='Escape')document.getElementById('login-modal').classList.add('hidden');
+  }
+});
+
+// ── RESULTS ───────────────────────────────────────────────────
+
+// ══════════════════════════════════════════════════════════
+//  DIAGNOSTIC REPORT (enhanced, downloadable)
+// ══════════════════════════════════════════════════════════
+function showDiagnosticReport() {
+  const total     = QUESTIONS.length;
+  const pct       = Math.round(CORRECT / total * 100);
+  const mins      = Math.floor(ELAPSED / 60);
+  const secs      = ELAPSED % 60;
+  const timeStr   = mins + 'm ' + secs + 's';
+  const dateStr   = new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  const studentName = STUDENT.first + ' ' + STUDENT.last;
+  const gradeClass  = pct >= 80 ? 'spass' : pct >= 65 ? 'swarn' : 'sfail';
+  const gradeLabel  = pct >= 80 ? '✓ Strong — EOPA Ready' : pct >= 65 ? '⚠ Approaching Proficiency' : '✗ Needs Focused Study';
+
+  if (pct >= 80) confetti(60);
+
+  // Update print header
+  document.getElementById('print-student-name').textContent =
+    'Student: ' + studentName + '  ·  Date: ' + dateStr + '  ·  Score: ' + CORRECT + '/' + total + ' (' + pct + '%)';
+
+  // ── Per-domain stats ────────────────────────────────────
+  const ICONS = {std1:'📋',std2:'🧠',std3:'🩹',std4:'⛑️',std5:'🍎',std6:'⚖️',
+                 std7:'🦵',std8:'⚡',std9:'💪',std10:'🏋️',std11:'🚑',std12:'🏥'};
+
+  const domainStats = STD_ORDER.map(k => {
+    const m = STD_META[k];
+    const r = RESULTS_DATA[k] || {correct:0, total:0};
+    const p = r.total > 0 ? Math.round(r.correct / r.total * 100) : null;
+    const status = p === null ? 'untested' : p >= 80 ? 'strong' : p >= 50 ? 'review' : 'focus';
+    return { k, m, r, p, status, icon: DIAG_DIAG_ICONS[k] };
+  });
+
+  // ── Domain map HTML ────────────────────────────────────
+  const domainMapHTML = domainStats.map(d => {
+    const col = d.p === null ? 'var(--mid)' : d.p >= 80 ? 'var(--correct)' : d.p >= 50 ? 'var(--amber)' : 'var(--rose)';
+    const statusLabel = {strong:'Strong ✓', review:'Review', focus:'Focus Now', untested:'—'}[d.status];
+    const statusClass = {strong:'ds-strong', review:'ds-review', focus:'ds-focus', untested:''}[d.status];
+    return `
+      <div class="dmap-card" style="border-color:${d.m.color}22">
+        <div class="dmap-card" style="display:none"></div>
+        <style>.dmap-card[data-k="${d.k}"]::before{background:${d.m.color}}</style>
+        <div class="dmap-icon">${d.icon}</div>
+        <div class="dmap-code" style="color:${d.m.color}">${d.m.code}</div>
+        <div class="dmap-name">${d.m.name}</div>
+        <div class="dmap-pct" style="color:${col}">${d.p !== null ? d.p + '%' : '—'}</div>
+        <div class="dmap-bar"><div class="dmap-bar-fill" style="width:${d.p||0}%;background:${col}"></div></div>
+        <span class="dmap-status ${statusClass}">${statusLabel}</span>
+      </div>`;
+  }).join('');
+
+  // ── Priority study plan ────────────────────────────────
+  // Sort by weighted weakness: exam % × (100 - score)
+  const sortedByWeakness = [...domainStats]
+    .filter(d => d.p !== null)
+    .sort((a,b) => (b.m.pct * (100 - (b.p||0))) - (a.m.pct * (100 - (a.p||0))));
+
+  const priorityRows = sortedByWeakness.slice(0, 6).map((d, i) => {
+    const priorityCol = i === 0 ? 'p1' : i === 1 ? 'p2' : i === 2 ? 'p3' : 'p4';
+    const action = d.p >= 80
+      ? 'Maintain — review DOK 3 questions'
+      : d.p >= 50
+      ? 'Study key concepts + practice questions'
+      : 'Priority review — study guide + flashcards + practice';
+    return `
+      <tr>
+        <td><span class="spt-priority ${priorityCol}">${i+1}</span></td>
+        <td>
+          <div class="spt-domain">${d.icon} ${d.m.code} — ${d.m.name}</div>
+          <div class="spt-weight">${d.m.pct}% of exam</div>
+        </td>
+        <td class="spt-score-cell" style="color:${d.p>=80?'var(--correct)':d.p>=50?'var(--amber)':'var(--rose)'}">${d.p}%</td>
+        <td class="spt-action">${action}</td>
+      </tr>`;
+  }).join('');
+
+  // ── Weighted focus callout ─────────────────────────────
+  const topWeak = sortedByWeakness.filter(d => d.p < 70).slice(0, 3);
+  const calloutText = topWeak.length === 0
+    ? 'Great job — no critical weak areas detected. Focus on DOK Level 3 question types to maximize your exam score.'
+    : 'Your highest-priority standards are <strong>' +
+      topWeak.map(d => d.m.code + ' (' + d.m.pct + '%)').join('</strong>, <strong>') +
+      '</strong> — these combine high exam weight with your lowest scores. Start here.';
+
+  // ── DOK breakdown ─────────────────────────────────────
+  const dokData = {1:{c:0,t:0}, 2:{c:0,t:0}, 3:{c:0,t:0}};
+  Object.values(RESULTS_DATA).forEach(r => {
+    [1,2,3].forEach(d => { dokData[d].c += r.dok[d].c; dokData[d].t += r.dok[d].t; });
+  });
+  const dokRowsHTML = [1,2,3].map(d => {
+    const {c,t} = dokData[d]; const p = t > 0 ? Math.round(c/t*100) : 0;
+    const col = p >= 80 ? 'var(--correct)' : p >= 65 ? 'var(--amber)' : 'var(--rose)';
+    const label = ['','Recall','Application','Analysis'][d];
+    return `<div class="bar-row">
+      <div class="bar-lbl dok-pill dp${d}" style="font-size:10px;min-width:90px">DOK ${d} — ${label}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${p}%;background:${col}"></div></div>
+      <div class="bar-score" style="color:${col}">${c}/${t} (${p}%)</div>
+    </div>`;
+  }).join('');
+
+  // ── Build the full report HTML ─────────────────────────
+  document.getElementById('results-content').innerHTML = `
+
+    <!-- REPORT HEADER -->
+    <div class="diag-report-header">
+      <div class="drh-top">
+        <div>
+          <div class="drh-label">Diagnostic Assessment Report</div>
+          <div class="drh-title">Sports <em>Medicine</em><br>EOPA 701</div>
+        </div>
+        <div class="drh-score-block">
+          <div class="drh-score-num">${CORRECT}<span>/${total}</span></div>
+          <div class="drh-score-pct">${pct}% Correct</div>
+        </div>
+      </div>
+      <div class="drh-meta">
+        <div class="drh-meta-item">Student: <strong style="color:#fff">${studentName}</strong></div>
+        <div class="drh-meta-item">Date: ${dateStr}</div>
+        <div class="drh-meta-item">Time: ${timeStr}</div>
+        <div class="drh-meta-item">Standards Tested: ${Object.keys(RESULTS_DATA).length}/12</div>
+      </div>
+      <div class="sc-badge ${gradeClass}" style="margin-top:14px">${gradeLabel}</div>
+    </div>
+
+    <!-- DOMAIN PERFORMANCE MAP -->
+    <div class="result-section">
+      <div class="rs-title">📊 Domain Performance Map</div>
+      <div class="domain-map-grid">${domainMapHTML}</div>
+      <div class="weight-callout">
+        <div class="weight-callout-icon">⚡</div>
+        <div>${calloutText}</div>
+      </div>
+    </div>
+
+    <!-- PRIORITY STUDY PLAN -->
+    <div class="result-section">
+      <div class="rs-title">📋 Personalized Study Plan — Ranked by Priority</div>
+      <table class="study-plan-table">
+        <thead>
+          <tr>
+            <th style="width:36px">#</th>
+            <th>Standard</th>
+            <th style="width:60px">Score</th>
+            <th>Recommended Action</th>
+          </tr>
+        </thead>
+        <tbody>${priorityRows}</tbody>
+      </table>
+    </div>
+
+    <!-- DOK BREAKDOWN -->
+    <div class="result-section">
+      <div class="rs-title">🎯 Performance by DOK Level</div>
+      ${dokRowsHTML}
+      <div style="font-size:11px;color:var(--mid);margin-top:10px;font-weight:600;line-height:1.6">
+        DOK 1 = Recall facts &nbsp;·&nbsp; DOK 2 = Apply concepts &nbsp;·&nbsp; DOK 3 = Analyze scenarios &nbsp;·&nbsp; Aligned to HOSA Sports Medicine CTSO content
+      </div>
+    </div>
+
+    <!-- WHAT TO DO NEXT -->
+    <div class="reco-box">
+      <div class="reco-title">✅ What to Do Next</div>
+      ${topWeak.length === 0
+        ? '<div class="reco-item">Great work across all standards! Take the full 60-question practice test to simulate exam conditions and sharpen DOK Level 3 analysis skills.</div>'
+        : topWeak.map(d =>
+            `<div class="reco-item"><strong>${d.icon} ${d.m.code} — ${d.m.name}</strong> (${d.m.pct}% of exam, your score: ${d.p}%): Use flashcards to master vocabulary, review key concepts, and practice DOK 2–3 questions for this standard.</div>`
+          ).join('') +
+          '<div class="reco-item">After studying weak areas, retake this diagnostic to track improvement — then take the full 60-question practice test.</div>'
+      }
+    </div>
+
+    <!-- DOWNLOAD + PRINT BUTTONS -->
+    <button class="download-btn" onclick="downloadReport('${studentName}', '${pct}', '${dateStr}')">
+      ⬇ Download Report as PDF
+    </button>
+    <div class="download-sub">Opens print dialog — choose "Save as PDF" in your browser</div>
+    <button class="print-report-btn" onclick="printReport()">🖨 Print for Teacher</button>
+
+    <!-- ACTION BUTTONS -->
+    <div class="result-actions" id="result-actions"></div>`;
+
+  // Action buttons
+  const ra = document.getElementById('result-actions');
+  if (ra) {
+    const b1 = document.createElement('button');
+    b1.className = 'ra-btn primary'; b1.textContent = '↺ Retake Diagnostic';
+    b1.onclick = startDiagnostic;
+    const b2 = document.createElement('button');
+    b2.className = 'ra-btn'; b2.textContent = '📝 Take Practice Test';
+    b2.onclick = startPractice;
+    const b3 = document.createElement('button');
+    b3.className = 'ra-btn'; b3.textContent = '🏠 Home';
+    b3.onclick = function(){ showPage('home'); };
+    ra.appendChild(b1); ra.appendChild(b2); ra.appendChild(b3);
+  }
+
+  showPage('results');
+}
+
+// ── Download report (triggers print-to-PDF) ───────────────────
+function downloadReport(name, pct, date) {
+  // Update print header with full info
+  const ph = document.getElementById('print-student-name');
+  if (ph) ph.textContent = 'Student: ' + name + '  ·  Date: ' + date + '  ·  Score: ' + pct + '%  ·  Sports Medicine EOPA 701 Diagnostic';
+  window.print();
+}
+
+function printReport() {
+  window.print();
+}
+
+function showResults(){
+  if (MODE === 'diagnostic') { showDiagnosticReport(); return; }
+  stopTimer();
+  const total=QUESTIONS.length;
+  const pct=Math.round(CORRECT/total*100);
+  const mins=Math.floor(ELAPSED/60);
+  const secs=ELAPSED%60;
+  const timeStr=mins+'m '+secs+'s';
+  if(pct>=80)confetti(60);
+  const gradeClass=pct>=80?'spass':pct>=65?'swarn':'sfail';
+  const gradeLabel=pct>=80?'✓ Strong Performance':pct>=65?'⚠ Approaching Proficiency':'✗ Needs Improvement';
+  const studentName=STUDENT.first+' '+STUDENT.last;
+  document.getElementById('print-student-name').textContent='Student: '+studentName+(new Date().toLocaleDateString()?' · Date: '+new Date().toLocaleDateString():'');
+
+  // DOK breakdown
+  const dokData={1:{c:0,t:0},2:{c:0,t:0},3:{c:0,t:0}};
+  Object.values(RESULTS_DATA).forEach(r=>{
+    [1,2,3].forEach(d=>{dokData[d].c+=r.dok[d].c;dokData[d].t+=r.dok[d].t;});
+  });
+  const dokRowsHTML=[1,2,3].map(d=>{
+    const {c,t}=dokData[d];const p=t>0?Math.round(c/t*100):0;
+    const col=p>=80?'var(--correct)':p>=65?'var(--amber)':'var(--rose)';
+    return `<div class="bar-row">
+      <div class="bar-lbl dok-pill dp${d}" style="font-size:10px">${DOK_LABELS[d].split('—')[0].trim()}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${p}%;background:${col}"></div></div>
+      <div class="bar-score" style="color:${col}">${c}/${t} (${p}%)</div>
+    </div>`;
+  }).join('');
+
+  // Domain breakdown
+  const domainHTML=STD_ORDER.map(k=>{
+    const m=STD_META[k];const r=RESULTS_DATA[k]||{correct:0,total:0};
+    if(!r.total)return'';
+    const p=Math.round(r.correct/r.total*100);
+    const col=p>=80?'var(--correct)':p>=65?'var(--amber)':'var(--rose)';
+    return`<div class="bar-row">
+      <div class="bar-lbl" style="color:${m.color};font-size:10px;font-weight:700;letter-spacing:.06em;min-width:44px">${m.code}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${p}%;background:${col}"></div></div>
+      <div class="bar-score" style="color:${col}">${r.correct}/${r.total}</div>
+    </div>`;
+  }).join('');
+
+  // Recommendations
+  const weak=STD_ORDER.filter(k=>{const r=RESULTS_DATA[k];return r&&r.total>0&&Math.round(r.correct/r.total*100)<70;}).map(k=>STD_META[k]);
+  const recoHTML=weak.length===0
+    ?'<div class="reco-item">Excellent! Focus on any DOK Level 3 questions you missed for exam excellence.</div>'
+    :weak.slice(0,4).map(m=>`<div class="reco-item"><strong>${m.icon} ${m.code} — ${m.name}</strong> (${m.pct}% of exam): Review key concepts and practice DOK 2–3 question types for this standard.</div>`).join('');
+
+  // Diagnostic domain map
+  const DIAG_ICONS={std1:'📋',std2:'🧠',std3:'🩹',std4:'⛑️',std5:'🍎',std6:'⚖️',std7:'🦵',std8:'⚡',std9:'💪',std10:'🏋️',std11:'🚑',std12:'🏥'};
+  let diagHTML='';
+  if(MODE==='diagnostic'){
+    diagHTML=`<div class="result-section"><div class="rs-title">📊 Domain Performance Map</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:9px">
+    ${STD_ORDER.map(k=>{
+      const m=STD_META[k];const r=RESULTS_DATA[k]||{correct:0,total:0};
+      const p=r.total>0?Math.round(r.correct/r.total*100):0;
+      const col=p>=80?'var(--correct)':p>=65?'var(--amber)':'var(--rose)';
+      const status=p>=80?'Strong':p>=50?'Review':'Focus';
+      return`<div style="background:var(--surface2);border:1.5px solid var(--border);border-top:3px solid ${m.color};border-radius:10px;padding:11px 9px;text-align:center">
+        <div style="font-size:1.3rem;margin-bottom:4px">${ICONS[k]}</div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:.08em;color:${m.color};margin-bottom:2px">${m.code}</div>
+        <div style="font-size:1.3rem;font-weight:800;color:${col};line-height:1;margin-bottom:3px">${r.total>0?p+'%':'—'}</div>
+        <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:${col}">${r.total>0?status:'—'}</div>
+      </div>`;
+    }).join('')}</div></div>`;
+  }
+
+  document.getElementById('results-content').innerHTML=`
+    <div class="score-card">
+      <div class="sc-mode">${MODE==='diagnostic'?'Diagnostic Results':'Practice Test Results'} · ${studentName}</div>
+      <div class="sc-score">${CORRECT}<span>/${total}</span></div>
+      <div class="sc-pct">${pct}% Correct · ${timeStr}</div>
+      <div class="sc-badge ${gradeClass}">${gradeLabel}</div>
+    </div>
+    <div class="stats-row">
+      <div class="stat-box"><div class="sb-val">${pct}%</div><div class="sb-lbl">Score</div></div>
+      <div class="stat-box"><div class="sb-val">${CORRECT}</div><div class="sb-lbl">Correct</div></div>
+      <div class="stat-box"><div class="sb-val">${total-CORRECT}</div><div class="sb-lbl">Missed</div></div>
+      <div class="stat-box"><div class="sb-val">${Object.keys(RESULTS_DATA).length}</div><div class="sb-lbl">Domains</div></div>
+      <div class="stat-box"><div class="sb-val">${timeStr}</div><div class="sb-lbl">Time</div></div>
+      <div class="stat-box"><div class="sb-val">${pct>=80?'🏆':pct>=65?'📈':'📚'}</div><div class="sb-lbl">Rating</div></div>
+    </div>
+    ${diagHTML}
+    <div class="result-section">
+      <div class="rs-title">🎯 Performance by DOK Level</div>
+      ${dokRowsHTML}
+    </div>
+    ${domainHTML?`<div class="result-section"><div class="rs-title">📚 Performance by Domain</div>${domainHTML}</div>`:''}
+    <div class="reco-box"><div class="reco-title">💡 Study Recommendations</div>${recoHTML}</div>
+    <button class="print-report-btn" onclick="printReport()">🖨 Print Report for Teacher</button>
+    <div class="result-actions" id="result-actions"></div>`;
+
+  const ra=document.getElementById('result-actions');
+  if(ra){
+    const isD=MODE==='diagnostic';
+    const b1=document.createElement('button');
+    b1.className='ra-btn primary';b1.textContent='\u21ba Retake';
+    b1.onclick=isD?startDiagnostic:startPractice;
+    const b2=document.createElement('button');
+    b2.className='ra-btn';
+    b2.textContent=isD?'\ud83d\udcdd Take Practice Test':'\ud83c\udfaf Take Diagnostic';
+    b2.onclick=isD?startPractice:startDiagnostic;
+    const b3=document.createElement('button');
+    b3.className='ra-btn';b3.textContent='\ud83c\udfe0 Home';
+    b3.onclick=function(){showPage('home');};
+    ra.appendChild(b1);ra.appendChild(b2);ra.appendChild(b3);
+  }
+}
+
+
+document.addEventListener('DOMContentLoaded', function() {
+
+  // Set image sources via JS to avoid base64 inside HTML attributes
+  document.getElementById('img-pullup').src = IMG_PULLUP;
+  document.getElementById('img-pushup').src = IMG_PUSHUP;
+  document.getElementById('img-curl').src   = IMG_CURL;
+  document.getElementById('img-legext').src = IMG_LEGEXT;
+
+  // Build flashcards
+  buildFlashcards();
+  // Show login if no student name saved
+  if(!STUDENT.first||!STUDENT.last){
+    document.getElementById('login-modal').classList.remove('hidden');
+  } else {
+    document.getElementById('login-modal').classList.add('hidden');
+  }
+  showPage('home');
+});
+
+
+
+
+// ── DRAG-DROP ─────────────────────────────────────────────────
+var _ddActive=null,_ddPlaced={};
+function ddStart(e,id){_ddActive=id;e.dataTransfer.setData('text/plain',id);setTimeout(function(){var el=document.getElementById(id);if(el)el.classList.add('dragging');},0);}
+function ddOver(e){e.preventDefault();e.currentTarget.classList.add('drag-over');}
+function ddLeave(e){e.currentTarget.classList.remove('drag-over');}
+function ddDrop(e,zone){e.preventDefault();e.currentTarget.classList.remove('drag-over');var id=e.dataTransfer.getData('text/plain')||_ddActive;if(id)ddPlace(id,zone);}
+function ddDropBank(e){e.preventDefault();e.currentTarget.classList.remove('drag-over');var id=e.dataTransfer.getData('text/plain')||_ddActive;if(id)ddReturnToBank(id);}
+function ddPlace(id,zone){
+  var card=document.getElementById(id);if(!card)return;
+  card.classList.remove('dragging','in-ok','in-bad');
+  var items=document.getElementById(zone+'-items');if(!items)return;
+  items.appendChild(card);_ddPlaced[id]=zone;
+  var ph=document.getElementById(zone+'-ph');if(ph)ph.style.display='none';
+  var btn=document.getElementById('dd-check');if(btn)btn.disabled=Object.keys(_ddPlaced).length<4;
+  var msg=document.getElementById('dd-msg');if(msg){msg.textContent='';msg.className='dd-msg';}
+  ['ckc','okc'].forEach(function(z){var el=document.getElementById('zone-'+z);if(el)el.classList.remove('dz-ok','dz-bad');});
+}
+function ddReturnToBank(id){
+  if(!_ddPlaced[id])return;
+  var card=document.getElementById(id);var bank=document.getElementById('dd-bank');
+  if(!card||!bank)return;
+  card.classList.remove('in-ok','in-bad');bank.appendChild(card);
+  var zone=_ddPlaced[id];delete _ddPlaced[id];
+  var items=document.getElementById(zone+'-items');
+  var ph=document.getElementById(zone+'-ph');
+  if(ph&&items&&!items.querySelector('.ex-card'))ph.style.display='';
+  var btn=document.getElementById('dd-check');if(btn)btn.disabled=Object.keys(_ddPlaced).length<4;
+}
+function ddCheck(){
+  ['ex-pullup','ex-pushup','ex-curl','ex-legext'].forEach(function(id){
+    var card=document.getElementById(id);if(!card)return;
+    var ok=_ddPlaced[id]===card.dataset.correct;
+    card.classList.remove('in-ok','in-bad');card.classList.add(ok?'in-ok':'in-bad');
+  });
+  var ckcOk=_ddPlaced['ex-pullup']==='ckc'&&_ddPlaced['ex-pushup']==='ckc';
+  var okcOk=_ddPlaced['ex-curl']==='okc'&&_ddPlaced['ex-legext']==='okc';
+  var ckEl=document.getElementById('zone-ckc');var okEl=document.getElementById('zone-okc');
+  if(ckEl){ckEl.classList.toggle('dz-ok',ckcOk);ckEl.classList.toggle('dz-bad',!ckcOk);}
+  if(okEl){okEl.classList.toggle('dz-ok',okcOk);okEl.classList.toggle('dz-bad',!okcOk);}
+  var allOk=ckcOk&&okcOk;
+  var msg=document.getElementById('dd-msg');
+  if(msg){msg.textContent=allOk?'Perfect - all 4 correct!':'Not quite - check the red zones';msg.className='dd-msg '+(allOk?'ok':'bad');}
+  if(allOk)confetti(35);
+  var sf=document.getElementById('sf');
+  if(sf){sf.className='screen-flash '+(allOk?'sf-ok':'sf-bad');sf.style.opacity='1';setTimeout(function(){sf.style.opacity='0';},300);}
+}
+function ddReset(){
+  var bank=document.getElementById('dd-bank');
+  ['ex-pullup','ex-pushup','ex-curl','ex-legext'].forEach(function(id){
+    var card=document.getElementById(id);
+    if(card&&bank){card.classList.remove('dragging','in-ok','in-bad');bank.appendChild(card);}
+  });
+  _ddPlaced={};
+  ['ckc','okc'].forEach(function(z){
+    var ph=document.getElementById(z+'-ph');var el=document.getElementById('zone-'+z);
+    if(ph)ph.style.display='';if(el)el.classList.remove('dz-ok','dz-bad','drag-over');
+  });
+  var msg=document.getElementById('dd-msg');if(msg){msg.textContent='';msg.className='dd-msg';}
+  var btn=document.getElementById('dd-check');if(btn)btn.disabled=true;
+}
+function confetti(n){
+  n=n||40;
+  var cols=['#0d9488','#06d6a0','#f59e0b','#f43f5e','#a855f7','#3b82f6','#fff'];
+  for(var i=0;i<n;i++){
+    var d=document.createElement('div');d.className='cf';
+    var dur=1.2+Math.random()*2,dl=Math.random()*.8;
+    d.style.cssText='left:'+Math.random()*100+'vw;background:'+cols[Math.floor(Math.random()*cols.length)]+';width:'+(4+Math.random()*8)+'px;height:'+(4+Math.random()*7)+'px;border-radius:'+(Math.random()>.5?'50%':'2px')+';animation-duration:'+dur+'s;animation-delay:'+dl+'s';
+    document.body.appendChild(d);setTimeout(function(){d.remove();},(dur+dl+.5)*1000);
+  }
+}
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+
+</script>
+</body>
+</html>
